@@ -84,3 +84,102 @@ creditos2022 %>% filter(`estado solicitud`%in% c("En proceso")) %>% ggplot(aes(x
 # grid por estado solicitud desde 2021 para la data mas larga
 creditos2022 %>% filter(`estado solicitud`%in% c("Aprobado")) %>% ggplot(aes(x=`fecha actualizacion`,y=n))+
   geom_line()+facet_grid(.~`estado solicitud`)
+
+
+
+
+
+#------------------------------------------------------------#
+#------------------------------------------------------------#
+#-------        ANALISIS CREDITOS Y SEGUROS        ----------# ----------------------------------------------------
+#------------------------------------------------------------#
+#------------------------------------------------------------#
+# 2021 - 2022
+cred_seg<-read_xlsx("creditos_seguros.xlsx")
+str(cred_seg)
+
+hist(cred_seg$`Credit Amount`)
+hist(cred_seg$`Credit Disbursement Amount`)
+hist(cred_seg$`Annual Interest`)
+hist(cred_seg$`Total Payment`)
+hist(cred_seg$`Total Fga Amount`)
+hist(cred_seg$`Total Insurance Amount`)
+
+# scatterplot
+cred_seg %>% ggplot(aes(x=`Total Insurance Amount`,y=(`Credit Disbursement Amount`)/1000)) +
+  geom_point(color="blue")+coord_flip()
+
+cred_seg %>% ggplot(aes(x=`Total Fga Amount`,y=(`Credit Disbursement Amount`)/1000)) +
+  geom_point(color="blue")+coord_flip()
+
+cred_seg %>% ggplot(aes(x=`Total Fga Amount`,y=(`Credit Disbursement Amount`)/1000)) +
+  geom_bin2d(color="blue")+coord_flip()
+
+cred_seg %>% ggplot(aes(x=`Total Insurance Amount`,y=(`Credit Disbursement Amount`)/1000)) +
+  geom_bin2d(color="blue")+coord_flip()
+# histograms
+cred_seg  %>% ggplot(aes(x=(`Credit Disbursement Amount`)/1000))+geom_histogram(color="darkblue", fill="lightblue")
+cred_seg  %>% ggplot(aes(x=(`Credit Amount`)/1000))+geom_histogram(color="darkblue", fill="lightblue")
+cred_seg  %>% ggplot(aes(x=`Annual Interest`))+geom_histogram(color="darkblue", fill="lightblue")
+cred_seg  %>% ggplot(aes(x=(`Total Payment`)/1000))+geom_histogram(color="darkblue", fill="lightblue")
+cred_seg  %>% ggplot(aes(x=`Total Fga Amount`))+geom_histogram(color="darkblue", fill="lightblue")
+cred_seg  %>% ggplot(aes(x=`Total Insurance Amount`))+geom_histogram(color="darkblue", fill="lightblue")
+
+# graph lines
+cred_seg2<-cred_seg %>% group_by(`Disbursement Date`) %>%
+  summarise(creditdisbursement_amount=sum(`Credit Disbursement Amount`),credit_amount=sum(`Credit Amount`),
+            interesanual=mean(`Annual Interest`), pagototal=sum(`Total Payment`),
+            fgatotal=sum(`Total Fga Amount`), seguro_monto=sum(`Total Insurance Amount`))
+
+cred_seg2 %>% ggplot(aes(x=`Disbursement Date`))+
+  geom_line(aes(y=cred_seg2$seguro_monto),colour="blue")+
+  geom_line(aes(y=cred_seg2$fgatotal),colour="red")
+
+#------------------------------ agrupamos por mes ------------------------------#
+cred_seg3<-cred_seg2 %>% mutate(month(`Disbursement Date`))
+  
+cred_seg3<-cred_seg3 %>% group_by(format(as.Date(cred_seg3$`Disbursement Date`), "%Y-%m")) %>%
+  summarise(creditdisbursement_amount=sum(creditdisbursement_amount), 
+            credit_amount=sum(credit_amount), interesanual=mean(interesanual), pagototal=sum(pagototal),
+            fgatotal=sum(fgatotal), seguro_monto=sum(seguro_monto))
+
+colnames(cred_seg3)[1]<-"fecha"
+cred_seg3$fecha<-fast_strptime( cred_seg3$fecha,format =  "%Y-%m")
+cred_seg3$fecha<-as.Date(cred_seg3$fecha)
+
+# graficando
+cred_seg3 %>% ggplot(aes(x=fecha))+
+  geom_line(aes(y=(seguro_monto)/1000000),colour="blue",size=1.5)+
+  geom_line(aes(y=(fgatotal)/1000000),colour="red",size=1.5)+
+  labs(title = "suma de seguros y fondo de garantia desembolsado por mes",
+                                               caption = "Rojo=fga, azul=seguro",x="",y="en millones")
+
+
+cred_seg3 %>% ggplot(aes(x=fecha))+geom_line(aes(y=(creditdisbursement_amount)/1000000),colour="red",size=1.5)+
+  geom_line(aes(y=(credit_amount)/1000000),colour="blue",size=1.5)+
+  labs(title = "suma de credito total y credito desembolsado por mes",
+                                                     caption = "Rojo=credito desembolsado, azul=credito total",
+       x="",y="en millones")
+
+cred_seg3 %>% ggplot(aes(x=fecha,y=interesanual))+geom_line(colour="blue",size=2)+
+  labs(title = "tasa de interés anual promedio",
+       caption = "",
+       x="",y="promedio por mes")
+
+#-------- 2022 ---------#
+# lo evaluamos por día
+cred_seg2 %>% filter(`Disbursement Date`>="2022-01-01") %>%
+  ggplot(aes(x=`Disbursement Date`))+geom_line(aes(y=(credit_amount)/1000),color="red",size=1.2)+
+  geom_line(aes(y=(creditdisbursement_amount)/1000),color="blue",size=1.2)+
+  labs(title = "2022- credito total y desembolso de credito",
+       caption = "Rojo= credito total, Azul= Credito desembolsado",
+       x="",y="en miles")
+
+cred_seg2 %>% ggplot(aes(x=`Disbursement Date`))+
+  geom_line(aes(y=(seguro_monto)/1000000),colour="blue",size=1)+
+  geom_line(aes(y=(fgatotal)/1000000),colour="red",size=1)+
+  labs(title = "suma de seguros y fondo de garantia desembolsado por mes",
+       caption = "Rojo=fga, azul=seguro",x="",y="en millones")
+
+# model
+summary( lm(creditdisbursement_amount~interesanual+fgatotal+seguro_monto,  data = cred_seg2) )
