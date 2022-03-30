@@ -1,0 +1,83 @@
+---
+title: "Voximplant"
+author: "Luis Barrios"
+date: "29/3/2022"
+output: 
+  pdf_document:
+    fig_caption: yes
+editor_options: 
+  chunk_output_type: console
+
+header-includes: \usepackage{float}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE,
+	fig.pos = 'H'
+)
+library(readr)
+library(readxl)
+library(lubridate)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(kableExtra)
+
+# historico de llamadas
+llamadas<-read_xlsx("voximplant_call_history.xlsx")
+
+# str(llamadas)
+# unique(llamadas$`Date of call start`)
+
+llamadas$`Date of call start`<-as.Date(llamadas$`Date of call start`)
+llamadas<-llamadas %>% mutate(mes=month(`Date of call start`))
+
+# 
+# unique(llamadas$`Agent B`)
+# unique(llamadas$`Agent A`)
+
+
+llamadas$`Call duration`<-as.numeric(llamadas$`Call duration`)
+llamadas$`Call cost`<-as.numeric(llamadas$`Call cost`)
+# 
+# hist(llamadas$`Call duration`)
+# hist(llamadas$`Call cost`)
+
+# solo marzo
+
+a<-llamadas %>% filter(mes=="3" & `Call duration`!="0") %>%  group_by(`Agent A`)%>%  count(`Is incoming`)
+
+```
+# Historial de llamadas
+
+
+## Historial de llamadas en marzo
+```{r llamadasagente, echo=FALSE, message=FALSE, warning=FALSE}
+a %>% ggplot(aes(x=reorder(`Agent A`,n),y=n))+
+  geom_bar(stat = "identity",fill="lightblue")+coord_flip()+facet_grid(.~`Is incoming`)+
+  labs(x="",y="numero de llamadas",title = "Numero de llamadas por Agente en mes de marzo",
+       caption = "no = No es llamada entrante (Saliente) , yes= Si es llamada entrante")
+```
+Se puede observar que no tenemos en la data de voximplant separado por agente las llamadas entrantes, habria que consultar que se puede hacer, en lo conversad con cristhian vemos que el phone B, engloba a todos los agentes/coordinadores como sip:scenario_30650
+
+\newpage
+
+## Total y promedio de duración de llamada entrante
+El mayor promedio de duración de llamada entrante lo presenta Jose Jhiovanni
+
+```{r zz, include=FALSE}
+callduration<-llamadas %>% group_by(`Agent A`) %>% summarise(promedio_llamada=round(mean(`Call duration`),digits = 1),
+                                               suma_llamada=sum(`Call duration`)) %>%
+  arrange(-promedio_llamada)
+```
+
+
+```{r llamadas, echo=FALSE, message=FALSE, warning=FALSE , fig.pos="H"}
+
+
+kbl(callduration,booktabs = T) %>% kable_styling(latex_options = c("striped"),font_size = 8)
+```
+
