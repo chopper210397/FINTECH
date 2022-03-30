@@ -1,16 +1,16 @@
 {
     "sortOrder": [
         {
-            "columnIndex": 1,
+            "columnIndex": 4,
             "ascending": false
         },
         {
             "columnIndex": 2,
-            "ascending": false
+            "ascending": true
         },
         {
-            "columnIndex": 4,
-            "ascending": true
+            "columnIndex": 1,
+            "ascending": false
         }
     ],
     "path": "C:/Users/User/OneDrive - Laboratorios Lansier/Escritorio/FINTECH"

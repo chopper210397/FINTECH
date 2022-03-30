@@ -1,5 +1,5 @@
 # DATA VOXIMPLANT _sac_ llamadas
-
+library(scales)
 library(readr)
 library(readxl)
 library(lubridate)
@@ -10,11 +10,24 @@ library(tidyr)
 # historico de llamadas
 llamadas<-read_xlsx("voximplant_call_history.xlsx")
 
-# str(llamadas)
-# unique(llamadas$`Date of call start`)
 
+ str(llamadas)
+# unique(llamadas$`Date of call start`)
+unique(llamadas$`Call result message`)
+
+llamadas %>% filter(mes==3)%>%  ggplot(aes(x=`Call result message`))+geom_bar()
+
+incomingcallsmarzo<-llamadas %>% filter(mes==3) %>% count(`Is incoming`) %>% mutate(total=sum(n)) %>%
+  mutate(porcentaje=round(n/total*100,1)) %>% select(`Is incoming`,n,porcentaje)
+
+callresultmessagemarzo<-llamadas %>% filter(mes==3 & `Is incoming`=="no")  %>% count(`Call result message`) %>% mutate(suma=sum(n)) %>%
+  mutate(porcentaje_total=round(n/suma*100,1)) %>% select(`Call result message`,n,porcentaje_total) %>% 
+  arrange(-porcentaje_total) 
+
+#
 llamadas$`Date of call start`<-as.Date(llamadas$`Date of call start`)
-llamadas<-llamadas %>% mutate(mes=month(`Date of call start`))
+llamadas<-llamadas %>% mutate(mes=month(`Date of call start`)) 
+
 
 # 
 # unique(llamadas$`Agent B`)
@@ -38,4 +51,71 @@ ggsave("voximplant.png",dpi=800)
 
 juliocesar<-llamadas %>% filter(`Agent A`=="Julio Cesar Osorio")
 juliocesarsincero<-llamadas %>% filter(`Agent A`=="Julio Cesar Osorio" & `Call duration`!="0")
+
+#---------- report by agent ----------#
+reportbyagent %>% ggplot(aes(x=User,y=))
+hist(reportbyagent$Online)
+as.Date(reportbyagent$Online)
+
+
+#------ voximplant por hora -------#
+llamadas<-read_xlsx("voximplant_call_history.xlsx")
+llamadas<-llamadas %>% mutate(mes=month(`Date of call start`)) 
+
+
+unique(hour(llamadas$`Date of call start`))
+
+llamadas<-llamadas %>% mutate(hora=hour(llamadas$`Date of call start`))
+# llamadas$hora<-parse_date_time(llamadas$hora,"%H")
+# seleccionando solo los de servicio para agente A
+llamadas %>%filter(mes==3) %>% filter(`Agent A` %in% c("Tatiana Real",
+                                     "Leidy Rojas" ,
+                                     "Catalina Suarez Camero",
+                                     "Laura Nieto",
+                                     "Karen Fernandez",
+                                     "Eduardo Enrique Sosa Zapata",
+                                     "Natalia Piedrahita",
+                                     "Luisa Fernanda Moreno Torres")) %>%
+  ggplot(aes(x=hora,fill=`Agent A`))+geom_bar()
+
+
+llamadas %>% filter(mes==3)%>% filter(`Agent A` %in% c("Tatiana Real",
+                                     "Leidy Rojas" ,
+                                     "Catalina Suarez Camero",
+                                     "Laura Nieto",
+                                     "Karen Fernandez",
+                                     "Eduardo Enrique Sosa Zapata",
+                                     "Natalia Piedrahita",
+                                     "Luisa Fernanda Moreno Torres")) %>%
+  count(`Agent A`) %>% arrange(-n) %>% mutate(total=sum(n)) %>% mutate(porcentaje=round(n/total*100,digits = 1))
+# servicio
+llamada_servicio<-llamadas %>% filter(mes==3)%>% filter(`Agent A` %in% c("Tatiana Real",
+                                                       "Leidy Rojas" ,
+                                                       "Catalina Suarez Camero",
+                                                       "Laura Nieto",
+                                                       "Karen Fernandez",
+                                                       "Eduardo Enrique Sosa Zapata",
+                                                       "Natalia Piedrahita",
+                                                       "Luisa Fernanda Moreno Torres")) %>%
+  group_by(hora,`Agent A`) %>% count(`Agent A`) %>% mutate(total=sum(n)) %>%
+  mutate(porcentaje=round(n/total*100,digits = 1)) %>% arrange(hora)
+
+llamada_servicio %>% ggplot(aes(x=hora,y=total,fill=`Agent A`))+geom_bar(stat = "identity",position = "dodge2")+
+  scale_x_continuous(n.breaks = 11)+labs(y="numero de llamadas salientes",
+                                         title = "Número de llamadas salientes para área servicios")+ 
+  guides(fill=guide_legend(title="Servicios"))
+
+ggsave("llamadassalientesservicios.png",dpi = 700,width = 12)
+# con el siguiente codigo validamos que los de servicio solo contestan entre 8am y 6pm
+llamadas %>% filter(hour(`Date of call start`)==6 & `Agent A` %in% c("Tatiana Real",
+                                                                     "Leidy Rojas" ,
+                                                                     "Catalina Suarez Camero",
+                                                                     "Laura Nieto",
+                                                                     "Karen Fernandez",
+                                                                     "Eduardo Enrique Sosa Zapata",
+                                                                     "Natalia Piedrahita",
+                                                                     "Luisa Fernanda Moreno Torres"))
+
+
+
 
