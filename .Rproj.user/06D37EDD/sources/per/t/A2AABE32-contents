@@ -68,8 +68,14 @@ Se puede observar que no tenemos en la data de voximplant separado por agente la
 
 \newpage
 ```{r zz, include=FALSE}
-callduration<-llamadas %>% group_by(`Agent A`) %>% summarise(promedio_llamada=round(mean(`Call duration`),digits = 1),
-                                               suma_llamada=sum(`Call duration`)) %>%
+callduration<-llamadas %>% filter(`Agent A` %in% c("Laura Nieto",
+                                                   "Catalina Suarez Camero",
+                                                   "Tatiana Real",
+                                                   "Karen Fernandez",
+                                                   "Leidy Rojas",
+                                                   "Natalia Piedrahita",
+                                                   "Luisa Fernanda Moreno Torres")) %>% group_by(`Agent A`) %>% summarise(promedio_llamada=round(mean(`Call duration`)/60,digits = 1),
+                                               suma_llamada=round(sum(`Call duration`)/60,digits = 1)) %>%
   arrange(-promedio_llamada)
 
 incomingcallsmarzo<-llamadas %>% filter(mes==3) %>% count(`Is incoming`) %>% mutate(total=sum(n)) %>%
@@ -80,7 +86,13 @@ callresultmessagemarzo<-llamadas %>% filter(mes==3 & `Is incoming`=="no")  %>% c
   arrange(-porcentaje_total) 
 
 llamadas$`Dialing time`<-as.numeric(llamadas$`Dialing time`)
-dialingtime<-llamadas %>% group_by(`Agent A`) %>% summarise(promedio_dialing_time=round(mean(`Dialing time`),digits = 1),
+dialingtime<-llamadas %>% filter(`Agent A` %in% c("Laura Nieto",
+                                                   "Catalina Suarez Camero",
+                                                   "Tatiana Real",
+                                                   "Karen Fernandez",
+                                                   "Leidy Rojas",
+                                                   "Natalia Piedrahita",
+                                                   "Luisa Fernanda Moreno Torres")) %>% group_by(`Agent A`) %>% summarise(promedio_dialing_time=round(mean(`Dialing time`),digits = 1),
                                                suma_llamada=sum(`Dialing time`)) %>%
   arrange(-promedio_dialing_time)
 ```
@@ -90,7 +102,7 @@ El mayor promedio de duración de llamada entrante lo presenta Jose Jhiovanni
 
 ```{r llamadas1, echo=FALSE, message=FALSE, warning=FALSE , fig.pos="H"}
 
-kbl(callduration,booktabs = T) %>% kable_styling(latex_options = c("striped","HOLD_position"),font_size = 8)
+kbl(callduration,booktabs = T) %>% kable_styling(latex_options = c("striped","HOLD_position"),font_size = 8) %>% footnote(number = c("Valores en minutos"))
 ```
 
 ## Porcentaje llamadas entrantes y no entrantes

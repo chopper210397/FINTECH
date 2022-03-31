@@ -1,27 +1,27 @@
 {
-    "id": "DCB1CE6B",
-    "path": "C:/Users/User/OneDrive - Laboratorios Lansier/Escritorio/FINTECH/voximplant.R",
-    "project_path": "voximplant.R",
+    "id": "80C4A116",
+    "path": "C:/Users/User/OneDrive - Laboratorios Lansier/Escritorio/FINTECH/kpiactividad.R",
+    "project_path": "kpiactividad.R",
     "type": "r_source",
-    "hash": "3672115121",
+    "hash": "82025767",
     "contents": "",
     "dirty": false,
-    "created": 1648588861785.0,
+    "created": 1648735285053.0,
     "source_on_save": false,
     "relative_order": 1,
     "properties": {
         "tempName": "Untitled1",
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "100,58",
-        "scrollLine": "87"
+        "cursorPosition": "43,31",
+        "scrollLine": "31"
     },
     "folds": "",
-    "lastKnownWriteTime": 1648680859,
+    "lastKnownWriteTime": 1648766434,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1648680859505,
+    "last_content_update": 1648766435767,
     "read_only": false,
     "read_only_alternatives": []
 }
