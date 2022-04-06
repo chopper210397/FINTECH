@@ -154,3 +154,6 @@ llamadas %>% filter(hour(`Date of call start`)==6 & `Agent A` %in% c("Tatiana Re
 
 llamadasduracion<-llamadas %>% filter(`Call duration`!=0)
 
+######### prueba
+llamadas %>% count(`Date of call start`) %>% ggplot(aes(x=`Date of call start`,y=n))+
+  geom_line()

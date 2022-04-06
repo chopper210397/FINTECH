@@ -51,7 +51,13 @@ llamadas$`Call cost`<-as.numeric(llamadas$`Call cost`)
 
 # solo marzo
 
-a<-llamadas %>% filter(mes=="3" & `Call duration`!="0") %>%  group_by(`Agent A`)%>%  count(`Is incoming`)
+a<-llamadas %>% filter(`Agent A` %in% c("Laura Nieto",
+                                                   "Catalina Suarez Camero",
+                                                   "Tatiana Real",
+                                                   "Karen Fernandez",
+                                                   "Leidy Rojas",
+                                                   "Natalia Piedrahita",
+                                                   "Luisa Fernanda Moreno Torres")) %>% filter(mes=="3" & `Call duration`!="0") %>%  group_by(`Agent A`)%>%  count(`Is incoming`)
 
 ```
 # Historial de llamadas
