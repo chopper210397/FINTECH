@@ -9,6 +9,7 @@ summary(twilio_wthsp)
 library(googlesheets4)
 library(wordcloud)
 library(tidytext)
+library(writexl)
 colnames(twilio_wthsp)[6]<-"from"
 colnames(twilio_wthsp)[14]<-"to"
 # en el "from" estan los numeros de celulares de los coordinadores creo yo
@@ -81,6 +82,7 @@ word_counted %>% filter(word %in% c("luis","jhiovanni",
 # debo probar primero con la data de un día a ver que conversaciones obtengo, me interesa las columnas 
 # from, to, el body y alguna variable de fecha
 twilio_wthsp_27_29<-read_xlsx("twilio_wthsp_messages_27_29.xlsx")
+twilio_wthsp_27_29<-read_xlsx("twilio_wthsp_messages_18_22.xlsx")
 twilio_wthsp_27_29<-twilio_wthsp_27_29 %>% select(-c(`Num Segments`,`Account Sid`,`Num Media`))
 
 # la variable direction nos informa si es inbound (entrante) o outbound api(saliente), para saber la conversación con 
@@ -88,10 +90,11 @@ twilio_wthsp_27_29<-twilio_wthsp_27_29 %>% select(-c(`Num Segments`,`Account Sid
 # fila y pegarlo en los comandos de to y from de abajo para los callsto
 
 # parece que al ordenarlo por date sent si tiene sentido la conversación
-callsto<-twilio_wthsp_27_29 %>% filter(To=="whatsapp:+573246578599" | From=="whatsapp:+573246578599") %>% arrange(`Date Sent`)
+callsto<-twilio_wthsp_27_29 %>% filter(To=="whatsapp:+573118522234" | From=="whatsapp:+573118522234") %>% arrange(`Date Sent`)
 callsto2<-twilio_wthsp_27_29 %>% filter(To=="whatsapp:+573134094551" | From=="whatsapp:+573134094551") %>% arrange(`Date Sent`)
 callsto3<-twilio_wthsp_27_29 %>% filter(To=="whatsapp:+573227604074" | From=="whatsapp:+573227604074") %>% arrange(`Date Sent`)
 
+# write_xlsx(callsto,"mensajeacoso.xlsx")
 # al parecer si esta funcionando todo bien asi que ahora crearemos un data frame con todas las conversaciones que tuvieron
 # respuesta (osea inbound), tal vez necesite un bucle
 
