@@ -1,0 +1,61 @@
+---
+title: "credit_analysis"
+author: "Luis Barrios"
+date: "29/3/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE
+)
+library(readr)
+library(readxl)
+library(lubridate)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+
+creditos<-read_xlsx("solicitudes_creditos.xlsx")
+# formateando la data
+creditos$`fecha creacion`<-as.Date(creditos$`fecha creacion`)
+creditos$`fecha actualizacion`<-as.Date(creditos$`fecha actualizacion`)
+creditos$`monto solicitado cliente`<-as.numeric(creditos$`monto solicitado cliente`)
+
+creditos2<-creditos %>% group_by(`fecha actualizacion`,`estado solicitud`) %>%
+  count(`monto solicitado cliente`,`monto aprobado`) %>% 
+  arrange(`fecha actualizacion`)
+
+creditos3<-creditos %>% count(`fecha actualizacion`,`estado solicitud`) %>% arrange(`fecha actualizacion`)
+
+creditos2022<-creditos %>% filter(`fecha actualizacion`>"2022-01-01") %>%  count(`fecha actualizacion`,`estado solicitud`) %>%
+  arrange(`fecha actualizacion`)
+
+#------------------------------------------------------------#
+#------------------------------------------------------------#
+#-------        ANALISIS CREDITOS Y SEGUROS        ----------# ----------------------------------------------------
+#------------------------------------------------------------#
+#------------------------------------------------------------#
+# 2021 - 2022
+cred_seg<-read_xlsx("creditos_seguros.xlsx")
+
+cred_seg2<-cred_seg %>% group_by(`Disbursement Date`) %>%
+  summarise(creditdisbursement_amount=sum(`Credit Disbursement Amount`),credit_amount=sum(`Credit Amount`),
+            interesanual=mean(`Annual Interest`), pagototal=sum(`Total Payment`),
+            fgatotal=sum(`Total Fga Amount`), seguro_monto=sum(`Total Insurance Amount`))
+
+#------------------------------ agrupamos por mes ------------------------------#
+cred_seg3<-cred_seg2 %>% mutate(month(`Disbursement Date`))
+
+colnames(cred_seg3)[1]<-"fecha"
+cred_seg3$fecha<-fast_strptime( cred_seg3$fecha,format =  "%Y-%m")
+cred_seg3$fecha<-as.Date(cred_seg3$fecha)
+```
+
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
