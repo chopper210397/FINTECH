@@ -1,0 +1,43 @@
+"0","#-------------- EXPERIMENTO 1 ------------#"
+"0","vinculados25_12<-read.csv(""consejeros_vinculados_25_12.csv"",sep = "";"")"
+"0","# del total de vinculados del 25 de marzo al 12 de abril, cuantos fueron gestionados"
+"0","gestionados_experimento_1<-nrow( vinculados25_12 %>% filter(Cedula %in% unique(gestionados$`numero de documento`)) )"
+"0",""
+"0","#-------------- EXPERIMENTO 2 ------------#"
+"0","# seleccionando  que esten en la data propuesta por grecia"
+"0","# del total de gestionados, cuantos pertenecen al numero de documentos que nos envío grecia"
+"0","gestionados_experimento_2<-nrow( gestionados  %>%"
+"0","                               filter(`numero de documento` %in% documentos$document_number) )"
+"0",""
+"0","#-------------- EXPERIMENTO 3 ------------#"
+"0","# deseamos de los consejeros 5,4 y 3 estrellas cuantos han sido gestionados"
+"0","estrellas5<-read_xlsx(""estrellas5.xlsx"")"
+"1","[38;5;255mNew names:
+[36m•[38;5;255m [38;5;255m`name`[38;5;255m -> [38;5;255m`name...3`[38;5;255m
+[36m•[38;5;255m [38;5;255m`name`[38;5;255m -> [38;5;255m`name...22`[38;5;255m[39m
+"
+"0","estrellas4<-read_xlsx(""estrellas4.xlsx"")"
+"1","[38;5;255mNew names:
+[36m•[38;5;255m [38;5;255m`name`[38;5;255m -> [38;5;255m`name...3`[38;5;255m
+[36m•[38;5;255m [38;5;255m`name`[38;5;255m -> [38;5;255m`name...22`[38;5;255m[39m
+"
+"0","estrellas3<-read_xlsx(""estrellas3.xlsx"")"
+"1","[38;5;255mNew names:
+[36m•[38;5;255m [38;5;255m`name`[38;5;255m -> [38;5;255m`name...3`[38;5;255m
+[36m•[38;5;255m [38;5;255m`name`[38;5;255m -> [38;5;255m`name...22`[38;5;255m[39m
+"
+"0","estrellas5_4_3<-rbind(estrellas5,estrellas4,estrellas3)"
+"0",""
+"0","gestionados_experimento_3<-nrow(estrellas5_4_3 %>% filter(document_number %in% unique(gestionados$`numero de documento`)))"
+"0",""
+"0","#---------------------------------- presentando resultados por experimento ----------------------------------#"
+"0","resultados<-c(gestionados_experimento_1,gestionados_experimento_2,gestionados_experimento_3)"
+"0","resultados<-as.data.frame(resultados)"
+"0","resultados[,2]<-c(""exp1"",""exp2"",""exp3"")"
+"0","colnames(resultados)<-c(""Gestionados"",""Experimento"")"
+"0",""
+"0","muestra<-c(nrow(estrellas5_4_3),nrow(gestionados),nrow(vinculados25_12))"
+"0","muestra<-as.data.frame(muestra)"
+"0","muestra[,2]<-c(""consejeros 5,4 y 3 estrellas"",""consejeros gestionados marzo y abril"",""consejeros vinculados 25 marzo al 12 abril"")"
+"0","colnames(muestra)<-c(""Muestra"",""Grupo"")"
+"0",""
