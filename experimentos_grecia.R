@@ -22,11 +22,11 @@ unique(gestionados$`tipo prioridad`)
 
 range(gestionados$Timestamp)
 # seleccionando desde el 25 de marzo
-gestionados %>% filter(Timestamp>"2022-03-25 23:59:59")
+gestionados_1<-gestionados %>% filter(Timestamp>"2022-03-24 23:59:59") %>% filter(Timestamp<"2022-04-17 23:59:59")
 #-------------- EXPERIMENTO 1 ------------#
 vinculados25_12<-read.csv("consejeros_vinculados_25_12.csv",sep = ";")
 # del total de vinculados del 25 de marzo al 12 de abril, cuantos fueron gestionados
-gestionados_experimento_1<-nrow( vinculados25_12 %>% filter(Cedula %in% unique(gestionados$`numero de documento`)) )
+gestionados_experimento_1<-nrow( vinculados25_12 %>% filter(Cedula %in% unique(gestionados_1$`numero de documento`)) )
 
 #-------------- EXPERIMENTO 2 ------------#
 # seleccionando  que esten en la data propuesta por grecia
@@ -40,8 +40,9 @@ estrellas5<-read_xlsx("estrellas5.xlsx")
 estrellas4<-read_xlsx("estrellas4.xlsx")
 estrellas3<-read_xlsx("estrellas3.xlsx")
 estrellas5_4_3<-rbind(estrellas5,estrellas4,estrellas3)
-
-gestionados_experimento_3<-nrow(estrellas5_4_3 %>% filter(document_number %in% unique(gestionados$`numero de documento`)))
+gestionados_3<-gestionados %>% filter(Timestamp>"2022-03-21 23:59:59") %>% 
+  filter(Timestamp<"2022-04-09 01:01:01")
+gestionados_experimento_3<-nrow(estrellas5_4_3 %>% filter(document_number %in% unique(gestionados_3$`numero de documento`)))
 
 #---------------------------------- presentando resultados por experimento ----------------------------------#
 resultados<-c(gestionados_experimento_1,gestionados_experimento_2,gestionados_experimento_3)
