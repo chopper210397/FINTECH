@@ -2,10 +2,8 @@
 title: "PQR'S"
 author: "Luis Barrios"
 date: "22/4/2022"
-output:
-  html_document:
-    df_print: paged
-editor_options:
+output: pdf_document
+editor_options: 
   chunk_output_type: console
 ---
 
