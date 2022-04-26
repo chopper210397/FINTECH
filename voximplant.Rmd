@@ -60,19 +60,22 @@ a<-llamadas %>% filter(`Agent A` %in% c("Laura Nieto",
                                                    "Luisa Fernanda Moreno Torres")) %>% filter(mes=="3" & `Call duration`!="0") %>%  group_by(`Agent A`)%>%  count(`Is incoming`)
 
 ```
+
 # Historial de llamadas
 
-
 ## Historial de llamadas en marzo
+
 ```{r llamadasagente, echo=FALSE, message=FALSE, warning=FALSE}
 a %>% ggplot(aes(x=reorder(`Agent A`,n),y=n))+
   geom_bar(stat = "identity",fill="lightblue")+coord_flip()+facet_grid(.~`Is incoming`)+
   labs(x="",y="numero de llamadas",title = "Numero de llamadas por Agente en mes de marzo",
        caption = "no = No es llamada entrante (Saliente) , yes= Si es llamada entrante")
 ```
-Se puede observar que no tenemos en la data de voximplant separado por agente las llamadas entrantes, habria que consultar que se puede hacer, en lo conversad con cristhian vemos que el phone B, engloba a todos los agentes/coordinadores como sip:scenario_30650
+
+Se puede observar que no tenemos en la data de voximplant separado por agente las llamadas entrantes, habria que consultar que se puede hacer, en lo conversad con cristhian vemos que el phone B, engloba a todos los agentes/coordinadores como <sip:scenario_30650>
 
 \newpage
+
 ```{r zz, include=FALSE}
 callduration<-llamadas %>% filter(`Agent A` %in% c("Laura Nieto",
                                                    "Catalina Suarez Camero",
@@ -104,6 +107,7 @@ dialingtime<-llamadas %>% filter(`Agent A` %in% c("Laura Nieto",
 ```
 
 ## Total y promedio de duración de llamada entrante
+
 El mayor promedio de duración de llamada entrante lo presenta Jose Jhiovanni
 
 ```{r llamadas1, echo=FALSE, message=FALSE, warning=FALSE , fig.pos="H"}
@@ -112,24 +116,30 @@ kbl(callduration,booktabs = T) %>% kable_styling(latex_options = c("striped","HO
 ```
 
 ## Porcentaje llamadas entrantes y no entrantes
+
 Aproximadamente el 80% de las llamadas presentes en la data de voximplant son salientes, mientras que el 20% son llamadas entrantes.
+
 ```{r llamadas2, echo=FALSE, message=FALSE, warning=FALSE , fig.pos="H"}
 
 kbl(incomingcallsmarzo,booktabs = T) %>% kable_styling(latex_options = c("striped","HOLD_position"))
 ```
+
 ## Mensaje de la llamada resultante
+
 Cabe consultar a que se refiere con "end of the scenario"
+
 ```{r llamadas3, echo=FALSE, message=FALSE, warning=FALSE , fig.pos="H"}
 
 kbl(callresultmessagemarzo,booktabs = T) %>% kable_styling(latex_options = c("striped","HOLD_position"))
 ```
 
 ## Promedio de dialing time por agente A
+
 No se observan diferencias significativas entre los tiempos promedio por agente, por lo tanto la variable no resulta importante para su rendimiento.
+
 ```{r llamadas4, echo=FALSE, message=FALSE, warning=FALSE , fig.pos="H"}
 
 kbl(dialingtime,booktabs = T) %>% kable_styling(latex_options = c("striped","HOLD_position"))
 ```
-
 
 # 

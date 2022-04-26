@@ -1,0 +1,61 @@
+---
+title: "Solicitudes 5 estrellas"
+author: "Luis Barrios"
+date: "`r Sys.Date()`"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+---
+
+## Requerimientos
+
+1.  Analizar por CV y en general
+
+2.  Comparar entre periodo (1 y 20 de abril) y ver si desde 21 abril se ve un incremento en resultado 5 estrellas
+
+```{r setup, include=FALSE,fig.pos="H"}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+```{r packages}
+library(tidyverse)
+library(readxl)
+library(readr)
+```
+
+```{r data manipulation, echo=FALSE, message=FALSE, warning=FALSE}
+solicitudes<-read.csv("solicitudes_consejeros_1_20_abril.csv",sep=";")
+solicitudes$X..Solicitudes<-as.numeric(solicitudes$X..Solicitudes)
+solicitudes$aprobadas<-as.numeric(solicitudes$aprobadas)
+solicitudes$Desembolsadas<-as.numeric(solicitudes$Desembolsadas)
+solicitudes$Ticket.promedio<-parse_number(solicitudes$Ticket.promedio,locale = locale(decimal_mark=","))
+solicitudes$credit_amount<-parse_number(solicitudes$credit_amount,locale = locale(decimal_mark=","))
+
+solicitudes_5<-solicitudes %>% filter(Categoria.consejero=="5 Estrellas")
+
+solicitudes_5_consejero<-solicitudes_5 %>% group_by(advisor_name) %>% summarise(numero_solicitudes=sum(X..Solicitudes)) %>% arrange(-numero_solicitudes)
+
+```
+
+## Revisión solicitudes 1 al 20 de abril
+
+```{r plot1,fig.width=10,fig.height=10}
+solicitudes %>% group_by(age_since_activation) %>% summarise(total=sum(X..Solicitudes)) %>% ggplot(aes(x=age_since_activation,y=total,label=total))+geom_histogram(stat = "identity",fill="lightblue")+geom_text()+geom_vline(xintercept = 33,linetype="dashed",colour="gray")+scale_x_continuous(n.breaks = 20)+labs(x="tiempo desde activación",y="solicitudes",title = "Número de solicitudes por tiempo de activación")
+```
+
+## Solicitudes por categoría
+
+```{r graph visualization}
+solicitudes %>% group_by(Categoria.consejero) %>% summarise(total=sum(X..Solicitudes)) %>% arrange(-total) %>% ggplot(aes(x=reorder(Categoria.consejero,total),y=total,label=total))+geom_bar(stat = "identity")+coord_flip()+geom_text()+labs(x="",y="Total de solicitudes",title = "Numero de solicitudes por categoría 1-20 abril")
+```
+
+## Promedio de crédito por categoría
+
+```{r promedio ticket}
+# omitimos los NA para que no anulen el cálculo posterior
+solicitudes %>% na.omit(Ticket.promedio) %>% group_by(Categoria.consejero) %>% summarise(promedio_ticket=round( mean(Ticket.promedio)/1000000,digits = 2)) %>% arrange(-promedio_ticket) %>% ggplot(aes(x=reorder(Categoria.consejero,promedio_ticket),y=promedio_ticket,fill=promedio_ticket,label=promedio_ticket))+geom_bar(stat = "identity")+coord_flip()+labs(x="",y="Promedio de crédito en millones",title = "Promedio de crédito por categoría")+theme(legend.position = "none")+geom_text()
+```
