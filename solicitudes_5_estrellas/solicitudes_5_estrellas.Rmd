@@ -2,8 +2,10 @@
 title: "Solicitudes 5 estrellas"
 author: "Luis Barrios"
 date: "`r Sys.Date()`"
-output: pdf_document
-editor_options: 
+output:
+  html_document:
+    df_print: paged
+editor_options:
   chunk_output_type: console
 ---
 

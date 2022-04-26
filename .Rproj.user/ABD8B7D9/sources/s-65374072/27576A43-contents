@@ -2,8 +2,10 @@
 title: "Solicitudes 5 estrellas"
 author: "Luis Barrios"
 date: "`r Sys.Date()`"
-output: pdf_document
-editor_options: 
+output:
+  html_document:
+    df_print: paged
+editor_options:
   chunk_output_type: console
 ---
 
@@ -25,6 +27,8 @@ knitr::opts_chunk$set(
 library(tidyverse)
 library(readxl)
 library(readr)
+install.packages("gganimate")
+
 ```
 
 ```{r data manipulation, echo=FALSE, message=FALSE, warning=FALSE}
