@@ -1,0 +1,79 @@
+---
+title: "grecia_experimentos"
+author: "Aflore"
+date: '2022-04-12'
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# install.packages("knitr")
+# install.packages("kableExtra")
+library(readxl)
+library(readr)
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+library(lubridate)
+library(knitr)
+gestionados_marzo<-read_xlsx("espejo_gestion_comercial.xlsx",sheet = "Marzo")
+gestionados_abril<-read_xlsx("espejo_gestion_comercial.xlsx",sheet = "Abril")
+# en gestionados estan de marzo y abril
+gestionados<-rbind(gestionados_marzo,gestionados_abril)
+# estos son los numeros de cedula de los participantes del experimento 2 dados por grecia
+documentos<-read_xlsx("documentos_experimentos.xlsx")
+
+str(gestionados)
+unique(gestionados$`tipo de contacto`)
+unique(gestionados$`tipo de persona`)
+unique(gestionados$`estado de la llamada`)
+unique(gestionados$`tipo prioridad`)
+
+range(gestionados$Timestamp)
+# seleccionando desde el 25 de marzo
+gestionados_1<-gestionados %>% filter(Timestamp>"2022-03-24 23:59:59") %>% filter(Timestamp<"2022-04-17 23:59:59")
+#-------------- EXPERIMENTO 1 ------------#
+vinculados25_12<-read.csv("consejeros_vinculados_25_12.csv",sep = ";")
+# del total de vinculados del 25 de marzo al 12 de abril, cuantos fueron gestionados
+gestionados_experimento_1<-nrow( vinculados25_12 %>% filter(Cedula %in% unique(gestionados_1$`numero de documento`)) )
+
+#-------------- EXPERIMENTO 2 ------------#
+# seleccionando  que esten en la data propuesta por grecia
+# del total de gestionados, cuantos pertenecen al numero de documentos que nos envío grecia
+gestionados_experimento_2<-nrow( gestionados  %>%
+                               filter(`numero de documento` %in% documentos$document_number) )
+
+#-------------- EXPERIMENTO 3 ------------#
+# deseamos de los consejeros 5,4 y 3 estrellas cuantos han sido gestionados
+estrellas5<-read_xlsx("estrellas5.xlsx")
+estrellas4<-read_xlsx("estrellas4.xlsx")
+estrellas3<-read_xlsx("estrellas3.xlsx")
+estrellas5_4_3<-rbind(estrellas5,estrellas4,estrellas3)
+gestionados_3<-gestionados %>% filter(Timestamp>"2022-03-21 23:59:59") %>% 
+  filter(Timestamp<"2022-04-09 01:01:01")
+gestionados_experimento_3<-nrow(estrellas5_4_3 %>% filter(document_number %in% unique(gestionados_3$`numero de documento`)))
+
+#---------------------------------- presentando resultados por experimento ----------------------------------#
+resultados<-c(gestionados_experimento_1,gestionados_experimento_2,gestionados_experimento_3)
+resultados<-as.data.frame(resultados)
+resultados[,2]<-c("exp1","exp2","exp3")
+colnames(resultados)<-c("Gestionados","Experimento")
+
+muestra<-c(nrow(estrellas5_4_3),nrow(gestionados),nrow(vinculados25_12))
+muestra<-as.data.frame(muestra)
+muestra[,2]<-c("consejeros 5,4 y 3 estrellas","consejeros gestionados marzo y abril","consejeros vinculados 25 marzo al 12 abril")
+colnames(muestra)<-c("Muestra","Grupo")
+```
+# Valores totales 
+```{r grecia, echo=FALSE, message=FALSE, warning=FALSE}
+kable(muestra,"simple")
+
+```
+
+# Gestionados efectivamente
+```{r greciaa, echo=FALSE, message=FALSE, warning=FALSE}
+
+kable(resultados,"simple")
+```
