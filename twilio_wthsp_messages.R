@@ -119,6 +119,7 @@ coordinadores$y<-as.numeric(coordinadores$y)
 coordinadores2$y<-as.numeric(coordinadores2$y)
 coordinadores<-coordinadores %>% mutate(gestiones=y/2)
 coordinadores2 %>% ggplot(aes(x=reorder(x,y),y=y,label=y))+geom_bar(stat = "identity",fill="lightblue")+geom_text()+coord_flip()+
+<<<<<<< Updated upstream
   labs(x="",y="veces de id unico por cv",title = "Numero de veces que aparece el id único por CV",
        caption = "Si el id se menciona en el saludo y al despedirse, las gestiones deberian ser la mitad")
 
@@ -130,6 +131,19 @@ coordinadoressuma %>% ggplot(aes(x=reorder(x,y),y=y,label=y))+geom_bar(stat = "i
   labs(x="",y="veces de id unico por cv",title = "Numero de veces que aparece el id único por CV",
        caption = "Si el id se menciona en el saludo y al despedirse, las gestiones deberian ser la mitad")
 
+=======
+  labs(x="",y="veces de id unico por cv",title = "Numero de veces que aparece el id único por CV",
+       caption = "Si el id se menciona en el saludo y al despedirse, las gestiones deberian ser la mitad")
+
+# sumando id numero cv con espacio y sin espacio
+coordinadoressuma<-coordinadores2
+coordinadoressuma[,2]<- coordinadores[,2]+coordinadores2[,2]
+
+coordinadoressuma %>% ggplot(aes(x=reorder(x,y),y=y,label=y))+geom_bar(stat = "identity",fill="lightblue")+geom_text()+coord_flip()+
+  labs(x="",y="veces de id unico por cv",title = "Numero de veces que aparece el id único por CV",
+       caption = "Si el id se menciona en el saludo y al despedirse, las gestiones deberian ser la mitad")
+
+>>>>>>> Stashed changes
 #---------------------------------------------------------------------------------------------------------------#
 #---------------------------------------------------------------------------------------------------------------#
 #---------------------------------------------------------------------------------------------------------------#
