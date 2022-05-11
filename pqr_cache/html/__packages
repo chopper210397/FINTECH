@@ -1,0 +1,11 @@
+readr
+readxl
+ggplot2
+tidyr
+dplyr
+kableExtra
+lubridate
+forcats
+stringr
+gganimate
+plotly

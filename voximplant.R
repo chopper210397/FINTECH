@@ -10,10 +10,10 @@ library(kableExtra)
 library(writexl)
 # install.packages("writexl")
 # historico de llamadas
-llamadas<-read_xlsx("voximplant_call_history.xlsx")
+llamadas<-read_xlsx("voximplant_call_history_abril.xlsx")
 
 
- str(llamadas)
+str(llamadas)
 # unique(llamadas$`Date of call start`)
 unique(llamadas$`Call result message`)
 
@@ -61,7 +61,7 @@ as.Date(reportbyagent$Online)
 
 
 #------ voximplant por hora -------#
-llamadas<-read_xlsx("voximplant_call_history.xlsx")
+llamadas<-read_xlsx("voximplant_call_history_abril.xlsx")
 llamadas<-llamadas %>% mutate(mes=month(`Date of call start`)) 
 
 
@@ -103,12 +103,12 @@ llamada_servicio<-llamadas %>% filter(mes==3)%>% filter(`Agent A` %in% c("Tatian
   mutate(porcentaje=round(n/total*100,digits = 1)) %>% arrange(hora)
 # para todo el equipo
 # llamadas entrantes por hora
-llamadas %>% filter(mes==3) %>% filter(`Is incoming`=="yes") %>% count(hora) %>% ggplot(aes(x=hora,y=n))+geom_bar(stat = "identity",fill="brown")+
+llamadas %>% filter(mes==4) %>% filter(`Is incoming`=="yes") %>% count(hora) %>% ggplot(aes(x=hora,y=n))+geom_bar(stat = "identity",fill="brown")+
   scale_x_continuous(n.breaks = 15)+labs(title = "Llamadas entrantes por hora",y="")
 ggsave("llamadasporhorasentrantes.png",dpi = 300)
 
 # llamadas salientes por hora
-llamadas %>% filter(mes==3) %>% filter(`Is incoming`=="no") %>% count(hora) %>% ggplot(aes(x=hora,y=n))+geom_bar(stat = "identity",fill="brown")+
+llamadas %>% filter(mes==4) %>% filter(`Is incoming`=="no") %>% count(hora) %>% ggplot(aes(x=hora,y=n))+geom_bar(stat = "identity",fill="brown")+
   scale_x_continuous(n.breaks = 15)+labs(title = "Llamadas salientes por hora", y="")
 ggsave("llamadasporhorassalientes.png",dpi = 300)
 

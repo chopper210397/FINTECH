@@ -1,15 +1,16 @@
 twilio_wthsp<-read_xlsx("twilio_wthsp_messages.xlsx")
 mensajes<-read_xlsx("onlymessages.xlsx")
-# install.packages("psych")
+
 library(psych)
-summary(twilio_wthsp)
-# install.packages("tidytext")
-# install.packages("wordcloud")
-# install.packages("googlesheets4")
 library(googlesheets4)
 library(wordcloud)
 library(tidytext)
 library(writexl)
+library(dplyr)
+library(tidyr)
+library(lubridate)
+library(readxl)
+
 colnames(twilio_wthsp)[6]<-"from"
 colnames(twilio_wthsp)[14]<-"to"
 # en el "from" estan los numeros de celulares de los coordinadores creo yo
@@ -82,24 +83,28 @@ word_counted %>% filter(word %in% c("luis","jhiovanni",
 # debo probar primero con la data de un día a ver que conversaciones obtengo, me interesa las columnas 
 # from, to, el body y alguna variable de fecha
 twilio_wthsp_27_29<-read_xlsx("twilio_wthsp_messages_27_29.xlsx")
-twilio_wthsp_27_29<-read_xlsx("twilio_wthsp_messages_18_22.xlsx")
-twilio_wthsp_27_29<-twilio_wthsp_27_29 %>% select(-c(`Num Segments`,`Account Sid`,`Num Media`))
+
+twilio_wthsp_27_29<-read_xlsx("messages.xlsx")
+colnames(twilio_wthsp_27_29)[6]<-"From"
+colnames(twilio_wthsp_27_29)[14]<-"To"
+
+twilio_wthsp_27_29<-twilio_wthsp_27_29 %>% select(-c(num_segments,account_sid,num_media))
 
 # la variable direction nos informa si es inbound (entrante) o outbound api(saliente), para saber la conversación con 
 # alguien debo ver que en direction diga inbound, eso significa que ese numero nos respondió, y copiar el from to de esa
 # fila y pegarlo en los comandos de to y from de abajo para los callsto
 
 # parece que al ordenarlo por date sent si tiene sentido la conversación
-callsto<-twilio_wthsp_27_29 %>% filter(To=="whatsapp:+573118522234" | From=="whatsapp:+573118522234") %>% arrange(`Date Sent`)
-callsto2<-twilio_wthsp_27_29 %>% filter(To=="whatsapp:+573134094551" | From=="whatsapp:+573134094551") %>% arrange(`Date Sent`)
-callsto3<-twilio_wthsp_27_29 %>% filter(To=="whatsapp:+573227604074" | From=="whatsapp:+573227604074") %>% arrange(`Date Sent`)
+callsto<-twilio_wthsp_27_29 %>% filter(To=="whatsapp:+573118522234" | From=="whatsapp:+573118522234") %>% arrange(date_sent)
+callsto2<-twilio_wthsp_27_29 %>% filter(To=="whatsapp:+573134094551" | From=="whatsapp:+573134094551") %>% arrange(date_sent)
+callsto3<-twilio_wthsp_27_29 %>% filter(To=="whatsapp:+573227604074" | From=="whatsapp:+573227604074") %>% arrange(date_sent)
 
 # write_xlsx(callsto,"mensajeacoso.xlsx")
 # al parecer si esta funcionando todo bien asi que ahora crearemos un data frame con todas las conversaciones que tuvieron
 # respuesta (osea inbound), tal vez necesite un bucle
 
 #                                 1. primero seleccionaremos todos los inbound, estos serian los números de los que han contestado
-numerosinbound<-twilio_wthsp_27_29 %>% filter(Direction=="inbound") %>% select(From)
+numerosinbound<-twilio_wthsp_27_29 %>% filter(direction=="inbound") %>% select(From)
 numerosinboundunicos<-unique(numerosinbound$From)
 numerodefilas<-length(numerosinboundunicos)
 
@@ -117,7 +122,11 @@ numerodefilas<-length(numerosinboundunicos)
 # for (i in 1:numerodefilas) {
 #   A<-lapply(1:numerodefilas,function(x)twilio_wthsp_27_29 %>% filter(To==numerosinboundunicos[i] | From==numerosinboundunicos[i]) %>% arrange(`Date Sent`) )
 # }
+a<-matrix(nrow = numerodefilas,ncol = 1)
 
+lapply(DF1$body ,grep("Jose"))
+
+grep("Jose",DF1)
 # nombre<-c()
 # assign(nombre,1:10)
 # d<-1:3
@@ -126,7 +135,7 @@ numerodefilas<-length(numerosinboundunicos)
 
 
 for (i in 1:numerodefilas) {
-  assign(paste0("DF",i), twilio_wthsp_27_29 %>% filter(To==numerosinboundunicos[i] | From==numerosinboundunicos[i]) %>% arrange(`Date Sent`)) 
+  assign(paste0("DF",i), twilio_wthsp_27_29 %>% filter(To==numerosinboundunicos[i] | From==numerosinboundunicos[i]) %>% arrange(date_sent)) 
 }
 # foo<-list(paste0("DF",seq(1,numerodefilas)))
 # do.call(rbind,foo)
@@ -134,7 +143,7 @@ for (i in 1:numerodefilas) {
 
 #                           2. DFTOTAL es mi dataframe con todas las conversaciónes para la fecha evaluada
 DFTOTAL<-do.call(rbind.data.frame,mget( paste0("DF",seq(1,numerodefilas)) ))
-DFTOTAL<-DFTOTAL %>% select(`Date Sent`,Body)
+DFTOTAL<-DFTOTAL %>% select(date_sent,body)
 rm(list=paste0("DF",seq(1,numerodefilas)))
 
 #                           3. Creando googlesheet donde pondremos los mensajes
