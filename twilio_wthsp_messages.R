@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 twilio_wthsp<-read_xlsx("twilio_wthsp_messages.xlsx")
 mensajes<-read_xlsx("onlymessages.xlsx")
 
+=======
+#------------------- TWILIO WTHSP MESSAGES -------------------#
+# packages
+>>>>>>> 0ec9206f775abc8ba3d986a811a00f3ece3df819
 library(psych)
 library(googlesheets4)
 library(wordcloud)
@@ -9,8 +14,19 @@ library(writexl)
 library(dplyr)
 library(tidyr)
 library(lubridate)
+<<<<<<< HEAD
 library(readxl)
 
+=======
+library(ggplot2)
+library(readxl)
+
+#------------------------------ data reading ------------------------------#
+twilio_wthsp<-read_xlsx("twilio_wthsp_messages.xlsx")
+mensajes<-read_xlsx("onlymessages1.xlsx")
+
+#------------------------------ data modification ------------------------------#
+>>>>>>> 0ec9206f775abc8ba3d986a811a00f3ece3df819
 colnames(twilio_wthsp)[6]<-"from"
 colnames(twilio_wthsp)[14]<-"to"
 # en el "from" estan los numeros de celulares de los coordinadores creo yo
@@ -28,17 +44,62 @@ colnames(twilio_wthsp)[14]<-"to"
 #------------- con esto conteo cuantas menciones hay por coordinador -------------#
 
 # lo ideal es buscar solo por un nombre porque si se busca por los dos nombres del CV los numeros se reducen bastante
-coordinadores<-data.frame(x=c("Laura","Tatiana","Leidy","Luisa","Natalia","Eduardo"),y="")
-coordinadores[1,2]<-length( grep("Laura",mensajes$Body))
-coordinadores[2,2]<-length( grep("Tatiana",mensajes$Body))
-coordinadores[3,2]<-length( grep("Leidy",mensajes$Body))
-coordinadores[4,2]<-length( grep("Luisa",mensajes$Body))
-coordinadores[5,2]<-length( grep("Natalia",mensajes$Body))
-coordinadores[6,2]<-length( grep("Eduardo",mensajes$Body))
+coordinadores1<-data.frame(x=c("Dulfay Linares","Esmeralda Correa","Jenny Rincón","Jhiovanni Vivas",
+                              "Jose Luis Álvarez","Luz Dary Useche","María Paula Sarmiento",
+                              "Nelson Rubio","Olga Alvarado","Sandra Herrera","Andrés Aguilar",
+                              "Camilo Escobedo","Claudia Duque","Diego Cruz","Jessica Arias",
+                              "Jorge Fernández","Paola Castro","Ruth Gonzalez"),y="")
+coordinadores1[1,2]<-length( grep("Dulfay Linares, coordinadora virtual id 1001",mensajes$Body))
+coordinadores1[2,2]<-length( grep("Esmeralda Correa, coordinadora virtual id 1002",mensajes$Body))
+coordinadores1[3,2]<-length( grep("Jenny Rincón, coordinadora virtual id 1003",mensajes$Body))
+coordinadores1[4,2]<-length( grep("Jhiovanni Vivas, coordinador virtual id 1004",mensajes$Body))
+coordinadores1[5,2]<-length( grep("Jose Luis Álvarez, coordinador virtual id 1005",mensajes$Body))
+coordinadores1[6,2]<-length( grep("Luz Dary Useche, coordinadora virtual id 1006",mensajes$Body))
+coordinadores1[7,2]<-length( grep("María Paula Sarmiento, coordinadora virtual id 1007",mensajes$Body))
+coordinadores1[8,2]<-length( grep("Nelson Rubio, coordinador virtual id 1008",mensajes$Body))
+coordinadores1[9,2]<-length( grep("Olga Alvarado, coordinadora virtual id 1009",mensajes$Body))
+coordinadores1[10,2]<-length( grep("Sandra Herrera, coordinadora virtual id 1010",mensajes$Body))
+coordinadores1[11,2]<-length( grep("Andrés Aguilar, coordinador virtual id 2001",mensajes$Body))
+coordinadores1[12,2]<-length( grep("Camilo Escobedo, coordinador virtual id 2002",mensajes$Body))
+coordinadores1[13,2]<-length( grep("Claudia Duque, coordinadora virtual id 2003",mensajes$Body))
+coordinadores1[14,2]<-length( grep("Diego Cruz, coordinador virtual id 2004",mensajes$Body))
+coordinadores1[15,2]<-length( grep("Jessica Arias, coordinadora virtual id 2005",mensajes$Body))
+coordinadores1[16,2]<-length( grep("Jorge Fernández, coordinador virtual id 2006",mensajes$Body))
+coordinadores1[17,2]<-length( grep("Paola Castro, coordinadora virtual id 2007",mensajes$Body))
+coordinadores1[18,2]<-length( grep("Ruth Gonzalez, coordinadora virtual id 2008",mensajes$Body))
+# por el saludo de entrada esta fallando al parecer, probaré por el id unico de coordinador, como
+# este código en teoría se debe decir al entrar y al salir entonces por mensaje habrian 2 codigos unicos
+# ante ello debemos dividir el número entre 2 y asi obtendriamos cuantos mensajes han sido gestionados
+# efectivamente por cada coordinador mediante mensajes twilio/wthsp
+coordinadores[1,2]<-length( grep("id 1001",mensajes$Body))
+coordinadores[2,2]<-length( grep("id 1002",mensajes$Body))
+coordinadores[3,2]<-length( grep("id 1003",mensajes$Body))
+coordinadores[4,2]<-length( grep("id 1004",mensajes$Body))
+coordinadores[5,2]<-length( grep("id 1005",mensajes$Body))
+coordinadores[6,2]<-length( grep("id 1006",mensajes$Body))
+coordinadores[7,2]<-length( grep("id 1007",mensajes$Body))
+coordinadores[8,2]<-length( grep("id 1008",mensajes$Body))
+coordinadores[9,2]<-length( grep("id 1009",mensajes$Body))
+coordinadores[10,2]<-length( grep("id 1010",mensajes$Body))
+coordinadores[11,2]<-length( grep("id 2001",mensajes$Body))
+coordinadores[12,2]<-length( grep("id 2002",mensajes$Body))
+coordinadores[13,2]<-length( grep("id 2003",mensajes$Body))
+coordinadores[14,2]<-length( grep("id 2004",mensajes$Body))
+coordinadores[15,2]<-length( grep("id 2005",mensajes$Body))
+coordinadores[16,2]<-length( grep("id 2006",mensajes$Body))
+coordinadores[17,2]<-length( grep("id 2007",mensajes$Body))
+coordinadores[18,2]<-length( grep("id 2008",mensajes$Body))
 
+coordinadores$y<-as.numeric(coordinadores$y)
+coordinadores1$y<-as.numeric(coordinadores1$y)
+coordinadores<-coordinadores %>% mutate(gestiones=y/2)
+coordinadores %>% ggplot(aes(x=reorder(x,y),y=y,label=y))+geom_bar(stat = "identity",fill="lightblue")+geom_text()+coord_flip()+
+  labs(x="",y="veces de id unico por cv",title = "Numero de veces que aparece el id único por CV",
+       caption = "Si el id se menciona en el saludo y al despedirse, las gestiones deberian ser la mitad")
+coordinadores1 %>% ggplot(aes(x=reorder(x,y),y=y,label=y))+geom_bar(stat = "identity")+geom_text()+coord_flip()
 # hay problema con jose luis y jose jhiovanni porque se repite el nombre jose
-length( grep("Jose Jhiovanni Vivas",mensajes$Body))
-
+length( grep("id 1001",mensajes$Body))
+mensajes$Body[grep("id 1008",mensajes$Body)]
 
 # buscar por from y to y tratar de reconstruir una conversación en base a una variable tiempo, esto poder unirlo
 # el identifiacdor unico podria ser un emoji
