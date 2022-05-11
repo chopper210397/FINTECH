@@ -125,23 +125,23 @@ comfama_febrero %>% count(Parentesco) %>% arrange(-n) %>% kbl() %>% kable_stylin
 
 # Conclusiones:
 
-1.  De las 224 personas en la data, 127 han sido gestionados y a su vez son titulares, de estos 127 titulares 42 desean aplicar a la beca.
+1.  De las **224** personas en la data, **127** han sido gestionados y a su vez son titulares, de estos 127 titulares **42** desean aplicar a la beca.
 
-2.  El 56.7% de la población total ha sido gestionado (es titular), solo el 33% de los gestionados desea aplicar a la beca.
+2.  El **56.7%** de la población total ha sido gestionado (es titular), solo el **33%** de los gestionados desea aplicar a la beca.
 
-3.  El 22% del total de personas desea aplicar a la beca
+3.  El **22%** del total de personas desea aplicar a la beca
 
-4.  El 3.6% del total de personas desea aplicar a la beca y son familiares del titular, siendo el 62% de estos familiares, hijos.
+4.  El **3.6%** del total de personas desea aplicar a la beca y son familiares del titular, siendo el **62%** de estos familiares, hijos.
 
-5.  El 7.1% del total de personas aún estan indecisos de si aplicar a la beca o no.
+5.  El **7.1%** del total de personas aún estan indecisos de si aplicar a la beca o no.
 
-6.  El 61.8% de los que no desean aplicar a la beca son titulares.
+6.  El **61.8%** de los que no desean aplicar a la beca son titulares.
 
-7.  El 84% de los que si desean aplicar a la beca son titulares.
+7.  El **84%** de los que si desean aplicar a la beca son titulares.
 
-8.  El 62.5% de los que tal vez accedan a la beca son titulares.
+8.  El **62.5%** de los que tal vez accedan a la beca son titulares.
 
-9.  El 39.8% de los que no han respondido al beneficio de la beca son titulares.
+9.  El **39.8%** de los que no han respondido al beneficio de la beca son titulares.
 
 ```{r calculator, eval=FALSE, include=FALSE}
 127/224*100
