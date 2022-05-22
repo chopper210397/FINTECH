@@ -1,0 +1,11 @@
+library(readxl)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(purr)
+library(lubridate)
+library(readr)
+
+reoferta<-read_xlsx("reoferta.xlsx",sheet = "Base de clientes",
+                    col_types = c("text"))
+

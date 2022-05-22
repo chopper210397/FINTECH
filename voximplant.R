@@ -12,6 +12,8 @@ library(writexl)
 # historico de llamadas
 <<<<<<< HEAD
 llamadas<-read_xlsx("voximplant_call_history_abril.xlsx")
+# data para mayo
+llamadas<-read_xlsx("voximplant_call_history_mayo.xlsx")
 
 =======
 llamadas<-read_xlsx("voximplant_call_history1.xlsx")
@@ -68,10 +70,10 @@ as.Date(reportbyagent$Online)
 
 <<<<<<< HEAD
 #------ voximplant por hora -------#
-llamadas<-read_xlsx("voximplant_call_history_abril.xlsx")
+llamadas<-read_xlsx("voximplant_call_history_mayo.xlsx")
 =======
 #------------------------- voximplant por hora ----------------------------#
-llamadas<-read_xlsx("voximplant_call_history1.xlsx")
+llamadas<-read_xlsx("voximplant_call_history_mayo.xlsx")
 >>>>>>> 0ec9206f775abc8ba3d986a811a00f3ece3df819
 llamadas<-llamadas %>% mutate(mes=month(`Date of call start`)) 
 
@@ -81,7 +83,7 @@ llamadas<-llamadas %>% mutate(mes=month(`Date of call start`))
 llamadas<-llamadas %>% mutate(hora=hour(llamadas$`Date of call start`))
 # llamadas$hora<-parse_date_time(llamadas$hora,"%H")
 # seleccionando solo los de servicio para agente A
-llamadas %>%filter(mes==3) %>% filter(`Agent A` %in% c("Tatiana Real",
+llamadas %>%filter(mes==5) %>% filter(`Agent A` %in% c("Tatiana Real",
                                      "Leidy Rojas" ,
                                      "Catalina Suarez Camero",
                                      "Laura Nieto",
@@ -92,7 +94,7 @@ llamadas %>%filter(mes==3) %>% filter(`Agent A` %in% c("Tatiana Real",
   ggplot(aes(x=hora,fill=`Agent A`))+geom_bar()
 
 
-llamadas %>% filter(mes==3)%>% filter(`Agent A` %in% c("Tatiana Real",
+llamadas %>% filter(mes==5)%>% filter(`Agent A` %in% c("Tatiana Real",
                                      "Leidy Rojas" ,
                                      "Catalina Suarez Camero",
                                      "Laura Nieto",
@@ -114,13 +116,16 @@ llamada_servicio<-llamadas %>% filter(mes==4)%>% filter(`Agent A` %in% c("Tatian
   mutate(porcentaje=round(n/total*100,digits = 1)) %>% arrange(hora)
 # para todo el equipo
 # llamadas entrantes por hora
-llamadas %>% filter(mes==4) %>% filter(`Is incoming`=="yes") %>% count(hora) %>% ggplot(aes(x=hora,y=n))+geom_bar(stat = "identity",fill="brown")+
-  scale_x_continuous(n.breaks = 15)+labs(title = "Llamadas entrantes por hora",y="")
+llamadas %>% filter(mes==5) %>% filter(`Is incoming`=="yes") %>% count(hora) %>%
+  ggplot(aes(x=hora,y=n,label=n))+geom_bar(stat = "identity",fill="lightblue")+
+  scale_x_continuous(n.breaks = 15)+labs(title = "Llamadas entrantes por hora",y="")+geom_text(size=3)
+
 ggsave("llamadasporhorasentrantes.png",dpi = 300)
 
 # llamadas salientes por hora
-llamadas %>% filter(mes==4) %>% filter(`Is incoming`=="no") %>% count(hora) %>% ggplot(aes(x=hora,y=n))+geom_bar(stat = "identity",fill="brown")+
-  scale_x_continuous(n.breaks = 15)+labs(title = "Llamadas salientes por hora", y="")
+llamadas %>% filter(mes==5) %>% filter(`Is incoming`=="no") %>% count(hora) %>%
+  ggplot(aes(x=hora,y=n,label=n))+geom_bar(stat = "identity",fill="lightblue")+
+  scale_x_continuous(n.breaks = 15)+labs(title = "Llamadas salientes por hora", y="")+geom_text(color="black")
 ggsave("llamadasporhorassalientes.png",dpi = 300)
 
 
