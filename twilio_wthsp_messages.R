@@ -41,14 +41,17 @@ colnames(twilio_wthsp)[14]<-"to"
 # mensaje<-twilio_wthsp$body
 # mensaje<-as.data.frame(mensaje)
 
+#---------------------------------------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------------------------#
 #------------- con esto conteo cuantas menciones hay por coordinador -------------#
 
 # lo ideal es buscar solo por un nombre porque si se busca por los dos nombres del CV los numeros se reducen bastante
-coordinadores1<-data.frame(x=c("Dulfay Linares","Esmeralda Correa","Jenny Rincón","Jhiovanni Vivas",
+coordinadores2<-data.frame(x=c("Dulfay Linares","Esmeralda Correa","Jenny Rincón","Jhiovanni Vivas",
                               "Jose Luis Álvarez","Luz Dary Useche","María Paula Sarmiento",
                               "Nelson Rubio","Olga Alvarado","Sandra Herrera","Andrés Aguilar",
                               "Camilo Escobedo","Claudia Duque","Diego Cruz","Jessica Arias",
                               "Jorge Fernández","Paola Castro","Ruth Gonzalez"),y="")
+
 coordinadores1[1,2]<-length( grep("Dulfay Linares, coordinadora virtual id 1001",mensajes$Body))
 coordinadores1[2,2]<-length( grep("Esmeralda Correa, coordinadora virtual id 1002",mensajes$Body))
 coordinadores1[3,2]<-length( grep("Jenny Rincón, coordinadora virtual id 1003",mensajes$Body))
@@ -67,6 +70,7 @@ coordinadores1[15,2]<-length( grep("Jessica Arias, coordinadora virtual id 2005"
 coordinadores1[16,2]<-length( grep("Jorge Fernández, coordinador virtual id 2006",mensajes$Body))
 coordinadores1[17,2]<-length( grep("Paola Castro, coordinadora virtual id 2007",mensajes$Body))
 coordinadores1[18,2]<-length( grep("Ruth Gonzalez, coordinadora virtual id 2008",mensajes$Body))
+
 # por el saludo de entrada esta fallando al parecer, probaré por el id unico de coordinador, como
 # este código en teoría se debe decir al entrar y al salir entonces por mensaje habrian 2 codigos unicos
 # ante ello debemos dividir el número entre 2 y asi obtendriamos cuantos mensajes han sido gestionados
@@ -90,13 +94,66 @@ coordinadores[16,2]<-length( grep("id 2006",mensajes$Body))
 coordinadores[17,2]<-length( grep("id 2007",mensajes$Body))
 coordinadores[18,2]<-length( grep("id 2008",mensajes$Body))
 
+# ahora calculando sin separación entre id y el número
+coordinadores2[1,2]<-length( grep("id1001",mensajes$Body))
+coordinadores2[2,2]<-length( grep("id1002",mensajes$Body))
+coordinadores2[3,2]<-length( grep("id1003",mensajes$Body))
+coordinadores2[4,2]<-length( grep("id1004",mensajes$Body))
+coordinadores2[5,2]<-length( grep("id1005",mensajes$Body))
+coordinadores2[6,2]<-length( grep("id1006",mensajes$Body))
+coordinadores2[7,2]<-length( grep("id1007",mensajes$Body))
+coordinadores2[8,2]<-length( grep("id1008",mensajes$Body))
+coordinadores2[9,2]<-length( grep("id1009",mensajes$Body))
+coordinadores2[10,2]<-length( grep("id1010",mensajes$Body))
+coordinadores2[11,2]<-length( grep("id2001",mensajes$Body))
+coordinadores2[12,2]<-length( grep("id2002",mensajes$Body))
+coordinadores2[13,2]<-length( grep("id2003",mensajes$Body))
+coordinadores2[14,2]<-length( grep("id2004",mensajes$Body))
+coordinadores2[15,2]<-length( grep("id2005",mensajes$Body))
+coordinadores2[16,2]<-length( grep("id2006",mensajes$Body))
+coordinadores2[17,2]<-length( grep("id2007",mensajes$Body))
+coordinadores2[18,2]<-length( grep("id2008",mensajes$Body))
+
+#
 coordinadores$y<-as.numeric(coordinadores$y)
-coordinadores1$y<-as.numeric(coordinadores1$y)
+coordinadores2$y<-as.numeric(coordinadores2$y)
 coordinadores<-coordinadores %>% mutate(gestiones=y/2)
-coordinadores %>% ggplot(aes(x=reorder(x,y),y=y,label=y))+geom_bar(stat = "identity",fill="lightblue")+geom_text()+coord_flip()+
+coordinadores2 %>% ggplot(aes(x=reorder(x,y),y=y,label=y))+geom_bar(stat = "identity",fill="lightblue")+geom_text()+coord_flip()+
+<<<<<<< Updated upstream
   labs(x="",y="veces de id unico por cv",title = "Numero de veces que aparece el id único por CV",
        caption = "Si el id se menciona en el saludo y al despedirse, las gestiones deberian ser la mitad")
-coordinadores1 %>% ggplot(aes(x=reorder(x,y),y=y,label=y))+geom_bar(stat = "identity")+geom_text()+coord_flip()
+
+# sumando id numero cv con espacio y sin espacio
+coordinadoressuma<-coordinadores2
+coordinadoressuma[,2]<- coordinadores[,2]+coordinadores2[,2]
+
+coordinadoressuma %>% ggplot(aes(x=reorder(x,y),y=y,label=y))+geom_bar(stat = "identity",fill="lightblue")+geom_text()+coord_flip()+
+  labs(x="",y="veces de id unico por cv",title = "Numero de veces que aparece el id único por CV",
+       caption = "Si el id se menciona en el saludo y al despedirse, las gestiones deberian ser la mitad")
+
+=======
+  labs(x="",y="veces de id unico por cv",title = "Numero de veces que aparece el id único por CV",
+       caption = "Si el id se menciona en el saludo y al despedirse, las gestiones deberian ser la mitad")
+
+# sumando id numero cv con espacio y sin espacio
+coordinadoressuma<-coordinadores2
+coordinadoressuma[,2]<- coordinadores[,2]+coordinadores2[,2]
+
+coordinadoressuma %>% ggplot(aes(x=reorder(x,y),y=y,label=y))+geom_bar(stat = "identity",fill="lightblue")+geom_text()+coord_flip()+
+  labs(x="",y="veces de id unico por cv",title = "Numero de veces que aparece el id único por CV",
+       caption = "Si el id se menciona en el saludo y al despedirse, las gestiones deberian ser la mitad")
+
+>>>>>>> Stashed changes
+#---------------------------------------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------------------------#
+
+
+
+
+
+
 # hay problema con jose luis y jose jhiovanni porque se repite el nombre jose
 length( grep("id 1001",mensajes$Body))
 mensajes$Body[grep("id 1008",mensajes$Body)]
