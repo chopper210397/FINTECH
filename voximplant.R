@@ -1,4 +1,8 @@
 # DATA VOXIMPLANT _sac_ llamadas
+install.packages("dplyr")
+install.packages("ggplot2")
+install.packages("readxl")
+install.packages("lubridate")
 library(scales)
 library(readr)
 library(readxl)
@@ -12,9 +16,13 @@ library(writexl)
 # historico de llamadas
 <<<<<<< HEAD
 llamadas<-read_xlsx("voximplant_call_history_abril.xlsx")
+<<<<<<< Updated upstream
 # data para mayo
 llamadas<-read_xlsx("voximplant_call_history_mayo.xlsx")
 
+=======
+llamadas<-read_xlsx("voximplant_abril.xlsx")
+>>>>>>> Stashed changes
 =======
 llamadas<-read_xlsx("voximplant_call_history1.xlsx")
 # llamadas$`Date of call start`<-as_datetime(llamadas$`Date of call start`)
@@ -73,8 +81,13 @@ as.Date(reportbyagent$Online)
 llamadas<-read_xlsx("voximplant_call_history_mayo.xlsx")
 =======
 #------------------------- voximplant por hora ----------------------------#
+<<<<<<< Updated upstream
 llamadas<-read_xlsx("voximplant_call_history_mayo.xlsx")
 >>>>>>> 0ec9206f775abc8ba3d986a811a00f3ece3df819
+=======
+llamadas<-read_xlsx("voximplant_call_history1.xlsx")
+
+>>>>>>> Stashed changes
 llamadas<-llamadas %>% mutate(mes=month(`Date of call start`)) 
 
 
@@ -116,6 +129,7 @@ llamada_servicio<-llamadas %>% filter(mes==4)%>% filter(`Agent A` %in% c("Tatian
   mutate(porcentaje=round(n/total*100,digits = 1)) %>% arrange(hora)
 # para todo el equipo
 # llamadas entrantes por hora
+<<<<<<< Updated upstream
 llamadas %>% filter(mes==5) %>% filter(`Is incoming`=="yes") %>% count(hora) %>%
   ggplot(aes(x=hora,y=n,label=n))+geom_bar(stat = "identity",fill="lightblue")+
   scale_x_continuous(n.breaks = 15)+labs(title = "Llamadas entrantes por hora",y="")+geom_text(size=3)
@@ -126,6 +140,17 @@ ggsave("llamadasporhorasentrantes.png",dpi = 300)
 llamadas %>% filter(mes==5) %>% filter(`Is incoming`=="no") %>% count(hora) %>%
   ggplot(aes(x=hora,y=n,label=n))+geom_bar(stat = "identity",fill="lightblue")+
   scale_x_continuous(n.breaks = 15)+labs(title = "Llamadas salientes por hora", y="")+geom_text(color="black")
+=======
+llamadas %>% filter(mes==5) %>% filter(`Is incoming`=="yes") %>% count(hora) %>% ggplot(aes(x=hora,y=n,label=n))+
+  geom_bar(stat = "identity",fill="lightblue")+
+  scale_x_continuous(n.breaks = 15)+labs(title = "Llamadas entrantes por hora",y="")+geom_text(size=2)
+ggsave("llamadasporhorasentrantes.png",dpi = 300)
+
+# llamadas salientes por hora
+llamadas %>% filter(mes==5) %>% filter(`Is incoming`=="no") %>% count(hora) %>% ggplot(aes(x=hora,y=n,label=n))+
+  geom_bar(stat = "identity",fill="lightblue")+
+  scale_x_continuous(n.breaks = 15)+labs(title = "Llamadas salientes por hora", y="")+geom_text(size=2)
+>>>>>>> Stashed changes
 ggsave("llamadasporhorassalientes.png",dpi = 300)
 
 
