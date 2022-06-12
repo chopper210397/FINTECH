@@ -10,16 +10,18 @@ library(kableExtra)
 library(writexl)
 # install.packages("writexl")
 # historico de llamadas
-<<<<<<< HEAD
+
 llamadas<-read_xlsx("voximplant_call_history_abril.xlsx")
 # data para mayo
 llamadas<-read_xlsx("voximplant_call_history_mayo.xlsx")
 
-=======
+# data para mayo 26
+llamadas<-read_xlsx("voximplant_call_history_mayo_26.xlsx")
+
 llamadas<-read_xlsx("voximplant_call_history1.xlsx")
 # llamadas$`Date of call start`<-as_datetime(llamadas$`Date of call start`)
 # llamadas<-llamadas %>% mutate(mes=month(`Date of call start`))
->>>>>>> 0ec9206f775abc8ba3d986a811a00f3ece3df819
+
 
 str(llamadas)
 # unique(llamadas$`Date of call start`)
@@ -68,13 +70,13 @@ hist(reportbyagent$Online)
 as.Date(reportbyagent$Online)
 
 
-<<<<<<< HEAD
+
 #------ voximplant por hora -------#
 llamadas<-read_xlsx("voximplant_call_history_mayo.xlsx")
-=======
+
 #------------------------- voximplant por hora ----------------------------#
-llamadas<-read_xlsx("voximplant_call_history_mayo.xlsx")
->>>>>>> 0ec9206f775abc8ba3d986a811a00f3ece3df819
+llamadas<-read_xlsx("voximplant_mayo_cierrre.xlsx")
+
 llamadas<-llamadas %>% mutate(mes=month(`Date of call start`)) 
 
 
@@ -115,6 +117,7 @@ llamada_servicio<-llamadas %>% filter(mes==4)%>% filter(`Agent A` %in% c("Tatian
   group_by(hora,`Agent A`) %>% count(`Agent A`) %>% mutate(total=sum(n)) %>%
   mutate(porcentaje=round(n/total*100,digits = 1)) %>% arrange(hora)
 # para todo el equipo
+
 # llamadas entrantes por hora
 llamadas %>% filter(mes==5) %>% filter(`Is incoming`=="yes") %>% count(hora) %>%
   ggplot(aes(x=hora,y=n,label=n))+geom_bar(stat = "identity",fill="lightblue")+
@@ -125,8 +128,8 @@ ggsave("llamadasporhorasentrantes.png",dpi = 300)
 # llamadas salientes por hora
 llamadas %>% filter(mes==5) %>% filter(`Is incoming`=="no") %>% count(hora) %>%
   ggplot(aes(x=hora,y=n,label=n))+geom_bar(stat = "identity",fill="lightblue")+
-  scale_x_continuous(n.breaks = 15)+labs(title = "Llamadas salientes por hora", y="")+geom_text(color="black")
-ggsave("llamadasporhorassalientes.png",dpi = 300)
+  scale_x_continuous(n.breaks = 15)+labs(title = "Llamadas salientes por hora", y="")+geom_text(color="black",size=3)
+ggsave("llamadasporhorassalientes.png",dpi = 300,width = 9,height = 6)
 
 
 
