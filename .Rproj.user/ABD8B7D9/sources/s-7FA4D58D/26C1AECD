@@ -1,26 +1,26 @@
 {
-    "id": "6B73253F",
+    "id": "26C1AECD",
     "path": "~/Documentos/GitHub/FINTECH/voximplant.R",
     "project_path": "voximplant.R",
     "type": "r_source",
-    "hash": "2845313146",
+    "hash": "0",
     "contents": "",
     "dirty": false,
-    "created": 1652993209915.0,
+    "created": 1655402689891.0,
     "source_on_save": false,
-    "relative_order": 1,
+    "relative_order": 2,
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "144,0",
+        "cursorPosition": "138,29",
         "scrollLine": "127"
     },
     "folds": "",
-    "lastKnownWriteTime": 1653000956,
+    "lastKnownWriteTime": 1653595483,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1653000956355,
+    "last_content_update": 1653595483,
     "read_only": false,
     "read_only_alternatives": []
 }
