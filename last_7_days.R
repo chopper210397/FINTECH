@@ -1,4 +1,5 @@
 # reading C-SAT data from googlesheets
+# install.packages("googlesheets4")
 library(googlesheets4)
 library(dplyr)
 library(lubridate)
@@ -7,8 +8,10 @@ library(tidyr)
 
 # name_of_sheets<-sheet_names("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing")
 
+
 nelson_rubio<-range_read("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing",sheet = "Nelson Rubio",
                          col_types = "Dnccc")
+1  # este 1 es para seleccionar el perfil de google pre configurado, no borrar
 luz_dary_useche<-range_read("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing",sheet = "Luz Dary Useche",
                             col_types = "Dnccc")
 jose_luis_alvarez<-range_read("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing",sheet = "Jose Luis Alvarez",
@@ -49,15 +52,15 @@ catalina_suarez<-catalina_suarez %>% mutate(nombre='Catalina Suarez')
 
 # ultimos 7 dias
 last_7_days<-bind_rows(
-nelson_rubio %>% filter(Timestamp>(today()-7)) ,
-luz_dary_useche %>% filter(Timestamp>(today()-7)) ,
-jose_luis_alvarez %>% filter(Timestamp>(today()-7)) ,
-camilo_escobedo %>% filter(Timestamp>(today()-7)) ,
-tatiana_real %>% filter(Timestamp>(today()-7)) ,
-luisa_moreno %>% filter(Timestamp>(today()-7)) ,
-leidy_rojas %>% filter(Timestamp>(today()-7)) ,
-karen_fernandez %>% filter(Timestamp>(today()-7)) ,
-catalina_suarez %>% filter(Timestamp>(today()-7))
+nelson_rubio %>% filter(Timestamp>(today()-8)) ,
+luz_dary_useche %>% filter(Timestamp>(today()-8)) ,
+jose_luis_alvarez %>% filter(Timestamp>(today()-8)) ,
+camilo_escobedo %>% filter(Timestamp>(today()-8)) ,
+tatiana_real %>% filter(Timestamp>(today()-8)) ,
+luisa_moreno %>% filter(Timestamp>(today()-8)) ,
+leidy_rojas %>% filter(Timestamp>(today()-8)) ,
+karen_fernandez %>% filter(Timestamp>(today()-8)) ,
+catalina_suarez %>% filter(Timestamp>(today()-8))
 )
 
 selected_data<-last_7_days %>%
@@ -67,3 +70,4 @@ selected_data<-last_7_days %>%
 #ss <- gs4_create("wish_contact_last_7_days", sheets = selected_data)
 
 sheet_write(selected_data,ss="https://docs.google.com/spreadsheets/d/1CNdsejB5HRBYDAj6pajzfpjE60_BBSf2uA_KRWAkJPc/edit?usp=sharing",sheet="selected_data")
+rm(list=ls())
