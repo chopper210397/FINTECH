@@ -5,6 +5,7 @@ library(dplyr)
 library(lubridate)
 library(tidyr)
 library(ggplot2)
+# token: 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
 # tal parece que los nombres de los sheets no pueden contener tildes o falla la lectura mediante gs4
 
 # name_of_sheets<-sheet_names("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing")
@@ -64,7 +65,7 @@ last_month<-bind_rows(
   karen_fernandez,
   catalina_suarez
 )
-# creando mes con funciòn similar a date_trunc
+# creando mes con funciòn similar a date_trunc()
 last_month<-last_month %>% mutate(mes=trunc.Date(Timestamp,"months"))
 
 # creando base de datos por mes para todos los agentes segùn C-SAT promedio
@@ -73,10 +74,10 @@ historic_data_by_agent<-last_month %>% group_by(mes,nombre) %>%
             cantidad=n())
 
 # dibujo de C-SAT promedio por mes para todo el equipo
-# ggplot( last_month %>% group_by(mes) %>% summarise(avg_calification=mean(`¿Cómo calificarías la atención que te dio Nelson de Aflore?`)) ,
-#         aes(x=mes,y=avg_calification,label=round(avg_calification,2 ))) + geom_line()  +
-#   geom_label()  + labs(x="",y="",title = "C-SAT promedio por mes")
-  
+ggplot( last_month %>% group_by(mes) %>% summarise(avg_calification=mean(`¿Cómo calificarías la atención que te dio Nelson de Aflore?`)) ,
+        aes(x=mes,y=avg_calification,label=round(avg_calification,1 ))) + geom_line()  +
+  geom_label()  + labs(x="",y="",title = "C-SAT")
+
 
 
 #ss <- gs4_create("wish_contact_last_7_days", sheets = selected_data)
