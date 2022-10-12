@@ -4,7 +4,6 @@ library(lubridate)
 library(tidyr)
 library(tidyr)
 library(gmailr)
-# install.packages("rJava")
 
 # sheet Planes de acción
 

@@ -73,7 +73,12 @@ historic_data_by_agent<-last_month %>% group_by(mes,nombre) %>%
   summarise(avg_calification=mean(`¿Cómo calificarías la atención que te dio Nelson de Aflore?`),
             cantidad=n())
 
-# dibujo de C-SAT promedio por mes para todo el equipo
+# dibujo tal y como esta calculado en el dashboard servicios
+ggplot(historic_data_by_agent %>% group_by(mes) %>% summarise(avg_calification2=mean(avg_calification)),
+       aes(x=mes,y=avg_calification2,label=round(avg_calification2,1 ) ))+geom_line()+geom_label()
+
+
+# dibujo de C-SAT promedio por mes para todo el equipo (como esta en el ppt ComSac de caro para juriscoop)
 ggplot( last_month %>% group_by(mes) %>% summarise(avg_calification=mean(`¿Cómo calificarías la atención que te dio Nelson de Aflore?`)) ,
         aes(x=mes,y=avg_calification,label=round(avg_calification,1 ))) + geom_line()  +
   geom_label()  + labs(x="",y="",title = "C-SAT")
