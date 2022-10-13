@@ -13,6 +13,7 @@ autentication<-gm_auth_configure(key = "299160033159-pk4ik6pfnb971sk5l9daavdmttq
 1
 # nombre de los sheets y por lo tanto de los coordinadores
 nombres_hojas<-sheet_names("https://docs.google.com/spreadsheets/d/1QNXBhd_MWTbQFaYo_tw0O2WIWA1mzLNb8ZhyvjdEXcs/edit?usp=sharing")
+1
 # estos correos deben estar en el mismo orden que los nombres de nombres_hojas
 correos<-c("luisa.moreno@aflore.co",
            "tatiana.real@aflore.co",
@@ -74,4 +75,4 @@ for (selected_agent in nombres_hojas[,1]) {
 # LO IDEAL ES QUE NO SE MODIFIQUE EL ORDEN DE LAS HOJAS DEL SHEET PLANES DE ACCIÓN, EN CASO SE HAGA
 # SE ME DEBE INFORMAR PARA HACER LOS CAMBIOS RESPECTIVOS, POSTERIORMENTE DEJARÉ EL CÓDIGO MÁS
 # AUTOMATIZADO PARA QUE NO TENGAMOS ESTE PROBLEMA
-# token : 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
+# token : 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
