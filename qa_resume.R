@@ -4,6 +4,8 @@ library(lubridate)
 library(tidyr)
 library(ggplot2)
 
+
+###############################  C-SAT #####################################
 # autentication needed
 autentication<-gm_auth_configure(key = "299160033159-pk4ik6pfnb971sk5l9daavdmttqja27s.apps.googleusercontent.com",
                                  secret = "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")
@@ -93,3 +95,18 @@ historic_data<-bind_rows(
   Tatiana_Real,
   Yaneth_Murillo
 )
+
+historic_data %>%
+  group_by(trunc.Date(Timestamp,'months'),Nombre) %>%
+  summarise(promedio_c_sat=mean(Calificación))
+
+
+###############################  QA #####################################
+
+##########################  QA INTERNO ##################################
+
+qa_servicio<-range_read("https://docs.google.com/spreadsheets/d/1tYXEEq_34kxoKh0Vo4mfG5aUopC5wbFNyeTXqZqzsL4/edit?usp=sharing",
+           sheet ="Form Responses 1" , col_types = "DccccnncncncccccncDccc")
+
+qa_pqr<-range_read("https://docs.google.com/spreadsheets/d/1XgXYMt4qjep1_L8JUNCzM7Snfqp5XtnfKEV3DA_4HjU/edit?usp=sharing",
+                        sheet ="Form Responses 1" , col_types = "DcDccccccnnncncccccc")
