@@ -22,7 +22,6 @@ for (selected_agent in name_of_sheets) {
           )
 }
 
-<<<<<<< HEAD
 # falta ponerle a todos los dataframes los mismos nombres de columnas
 # AHORA YA SE QUE SI ESCRIBO LOS DATA FRAMES MANUALMENTE SI LES PUEDO APLICAR 
 # FUNCIONES CON LAPPLY O UN FOR, EL PROBLEMA ES QUE LA FUNCIÓN COLNAMES() NO HACE EFECTO
@@ -47,12 +46,7 @@ for (df in df_list) {
   colnames(df)<-c("Timestamp","Calificación","FCR","Comentario","Teléfono","Nombre")
 }
 
-=======
-for (i in i:5) {
-  
-}
 
->>>>>>> da9defd718994bd51d34f3830ff4ef434ebc71bc
 # homogenizando los nombres de las columnas
 colnames(luz_dary_useche)<-colnames(nelson_rubio)
 colnames(jose_luis_alvarez)<-colnames(nelson_rubio)
