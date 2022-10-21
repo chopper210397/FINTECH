@@ -4,55 +4,22 @@ library(lubridate)
 library(tidyr)
 library(ggplot2)
 
-# autentication needed
-autentication<-gm_auth_configure(key = "299160033159-pk4ik6pfnb971sk5l9daavdmttqja27s.apps.googleusercontent.com",
-                                 secret = "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")
-1
-
 # se eliminan los dos ultimos nombres porque son del "resume" e "indicadores"
 name_of_sheets<-head( sheet_names("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing"),-2 )
 
-# first we read all sheets from our googlesheet
 for (selected_agent in name_of_sheets) {
     assign(
              gsub(" ","_",selected_agent) ,
       
-             (range_read("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing",
-                        sheet = selected_agent , col_types = "Dnccc")) %>% mutate(nombre=selected_agent)
+             range_read("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing",
+                        sheet = selected_agent , col_types = "Dnccc")
           )
 }
 
-<<<<<<< HEAD
-# falta ponerle a todos los dataframes los mismos nombres de columnas
-# AHORA YA SE QUE SI ESCRIBO LOS DATA FRAMES MANUALMENTE SI LES PUEDO APLICAR 
-# FUNCIONES CON LAPPLY O UN FOR, EL PROBLEMA ES QUE LA FUNCIÓN COLNAMES() NO HACE EFECTO
-# POR LO TANTO HAY QUE BUSCAR OTRO CAMINO 
-df_list<-list( )
-
-lapply(df_list ,
-       function(x) x %>% mutate(id="1") )
-
-
-for (i in 1:length(df_list)) {
-  df_list[[i]]<-df_list[[i]] %>% rename()
-}
-
-for (i in 1:length(df_list)) {
-  print(names(df_list[[i]])<-c("Timestamp","Calificación","FCR","Comentario","Teléfono","Nombre"))
-  
-}
-
-
-for (df in df_list) {
-  colnames(df)<-c("Timestamp","Calificación","FCR","Comentario","Teléfono","Nombre")
-}
-
-=======
 for (i in i:5) {
   
 }
 
->>>>>>> da9defd718994bd51d34f3830ff4ef434ebc71bc
 # homogenizando los nombres de las columnas
 colnames(luz_dary_useche)<-colnames(nelson_rubio)
 colnames(jose_luis_alvarez)<-colnames(nelson_rubio)
