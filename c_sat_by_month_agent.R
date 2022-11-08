@@ -10,7 +10,6 @@ library(ggplot2)
 
 # name_of_sheets<-sheet_names("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing")
 
-
 nelson_rubio<-range_read("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing",
                          sheet = "Nelson Rubio",
                          col_types = "Dnccc")
@@ -47,8 +46,12 @@ jose_jhiovanni<-range_read("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3
 esmeralda_correa<-range_read("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing",
                              sheet = "Esmeralda Correa",
                            col_types = "Dnccc")
-andres_aguilar<-range_read("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing",sheet = "Andrés Aguilar",
-                             col_types = "Dnccc")
+andres_aguilar<-range_read("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing",
+                           sheet = "Andrés Aguilar",
+                           col_types = "Dnccc")
+andrea_reyes<-range_read("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing",
+                         sheet = "Andrea Reyes",
+                         col_types = "Dnccc")
 
 
 
@@ -64,6 +67,7 @@ colnames(catalina_suarez)<-colnames(nelson_rubio)
 colnames(jose_jhiovanni)<-colnames(nelson_rubio)
 colnames(esmeralda_correa)<-colnames(nelson_rubio)
 colnames(andres_aguilar)<-colnames(nelson_rubio)
+colnames(andrea_reyes)<-colnames(nelson_rubio)
 
 # creando columna nombre
 nelson_rubio<-nelson_rubio %>% mutate(nombre= 'Nelson Rubio')
@@ -78,6 +82,7 @@ catalina_suarez<-catalina_suarez %>% mutate(nombre='Catalina Suarez')
 jose_jhiovanni<-jose_jhiovanni %>% mutate(nombre='Jose Jhiovanni Vivas')
 esmeralda_correa<-esmeralda_correa %>% mutate(nombre='Esmeralda Correa')
 andres_aguilar<-andres_aguilar %>% mutate(nombre='Andrés Aguilar')
+andrea_reyes<-andrea_reyes %>% mutate(nombre='Andrea Reyes')
 
 # data total unida
 historic_data<-bind_rows(
@@ -92,7 +97,8 @@ historic_data<-bind_rows(
   catalina_suarez,
   jose_jhiovanni,
   esmeralda_correa,
-  andres_aguilar
+  andres_aguilar,
+  andrea_reyes
 )
 
 
