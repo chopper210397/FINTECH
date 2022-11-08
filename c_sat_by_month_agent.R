@@ -5,7 +5,7 @@ library(dplyr)
 library(lubridate)
 library(tidyr)
 library(ggplot2)
-# token: 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
+# token: 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
 # tal parece que los nombres de los sheets no pueden contener tildes o falla la lectura mediante gs4
 
 # name_of_sheets<-sheet_names("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing")
