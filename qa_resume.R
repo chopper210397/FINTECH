@@ -101,12 +101,13 @@ historic_data %>%
   summarise(promedio_c_sat=mean(Calificación))
 
 
-###############################  QA #####################################
+###############################  QA #################################################
 
-##########################  QA INTERNO ##################################
+##########################  QA SERVICIO ##################################
 
 qa_servicio<-range_read("https://docs.google.com/spreadsheets/d/1tYXEEq_34kxoKh0Vo4mfG5aUopC5wbFNyeTXqZqzsL4/edit?usp=sharing",
            sheet ="Form Responses 1" , col_types = "DccccnncncncccccncDccc")
 
+##########################  QA PQRS ######################################
 qa_pqr<-range_read("https://docs.google.com/spreadsheets/d/1XgXYMt4qjep1_L8JUNCzM7Snfqp5XtnfKEV3DA_4HjU/edit?usp=sharing",
                         sheet ="Form Responses 1" , col_types = "DcDccccccnnncncccccc")
