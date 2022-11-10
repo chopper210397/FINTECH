@@ -53,7 +53,7 @@ data<-data[6,]
         "Te envío el resumen del acompañamiento realizado el día ",data$`Fecha del acompañamiento`," junto a ",data$`Realiza el acompañamiento`,"\n","\n",
         "Realizó el acompañamiento: ","\t", data$`Realiza el acompañamiento`,"\n",
         "Fecha de acompañamiento: ","\t", data$`Fecha del acompañamiento` ,"\n",
-        "Plazo: ", "\t", data$Plazo ,"\n", "\n",
+        "Plazo: ", "\t", as.Date(data$Plazo , "%m/%d/%Y") ,"\n", "\n",
         
         "A mejorar: ", "\n", data$`A mejorar` ,"\n","\n",
         "Aspectos donde se evidencia avance vs acompañamientos anteriores: ", "\n", data$`Aspectos donde se evidencia avance vs acompañamientos anteriores` ,"\n","\n",
@@ -66,3 +66,5 @@ data<-data[6,]
 1  
 
 rm(list = ls())
+
+
