@@ -38,12 +38,11 @@ ifelse( as.character( max( data$Timestamp ) ) ==  as.character( today()-1),
         data <- data %>% filter( as.character( Timestamp ) == as.character( today()-1 )),
         0 )
 
+data<-data[1,]
 
-a<-function(selected_agent)
-  
   created_message<-gm_mime() %>%
     gm_to( correos[data$Colaborador] ) %>% 
-    gm_cc("carolina.reyes@aflore.co") %>%
+    gm_cc("carolina.reyes@aflore.co,talento@aflore.co") %>%
     gm_bcc("dora.giraldo@aflore.co") %>% 
     gm_from("luis.barrios@aflore.co") %>%
     gm_subject(paste0("Plan de acción acompañamiento de ", data$Colaborador )) %>%
