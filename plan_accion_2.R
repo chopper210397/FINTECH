@@ -30,7 +30,8 @@ correos <- c("Andrés Aguilar"="andresmauricio@aflore.co",
              "Karen Fernández"="karen.fernandez@aflore.co",
              "Luisa Moreno"="luisa.moreno@aflore.co",
              "Luz Dary Useche"="luzdary@aflore.co",
-             "Tatiana Real"="tatiana.real@aflore.co"
+             "Tatiana Real"="tatiana.real@aflore.co",
+             "Andrea Reyes"="andrea.reyes@aflore.co"
              )
 
 # selecting data from today
@@ -38,7 +39,7 @@ ifelse( as.character( max( data$Timestamp ) ) ==  as.character( today()-1),
         data <- data %>% filter( as.character( Timestamp ) == as.character( today()-1 )),
         0 )
 
-data<-data[1,]
+data<-data[6,]
 
   created_message<-gm_mime() %>%
     gm_to( correos[data$Colaborador] ) %>% 
@@ -63,3 +64,5 @@ data<-data[1,]
     )
   gm_send_message(created_message,user_id = "me")
 1  
+
+rm(list = ls())
