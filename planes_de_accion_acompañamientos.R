@@ -34,12 +34,16 @@ correos <- c("Andrés Aguilar"="andresmauricio@aflore.co",
              "Andrea Reyes"="andrea.reyes@aflore.co"
              )
 
-# selecting data from today
+# selecting data from an specific day
+# data<-data %>% filter(as.character(Timestamp)==as.character(today()-7))
+
+
+# selecting data from yesterday , be careful if is monday cause cant yesterday is not friday so app dont send those messages
 ifelse( as.character( max( data$Timestamp ) ) ==  as.character( today()-1),
         data <- data %>% filter( as.character( Timestamp ) == as.character( today()-1 )),
         0 )
 
-data<-data[6,]
+# data<-data[13,]
 
   created_message<-gm_mime() %>%
     gm_to( correos[data$Colaborador] ) %>% 
