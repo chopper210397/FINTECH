@@ -108,12 +108,30 @@ sheet_write(historic_data,
             sheet="historic_data_by_agent")
 rm(list=ls())
 
-# # dibujo de C-SAT promedio por mes para todo el equipo (como esta en el ppt ComSac de caro para juriscoop)
-# ggplot( last_month %>% group_by(mes) %>% summarise(avg_calification=mean(`¿Cómo calificarías la atención que te dio Nelson de Aflore?`)) ,
-#         aes(x=mes,y=avg_calification,label=round(avg_calification,1 ))) + geom_line()  +
+
+#########################################################################
+# # install.packages("plotly")
+# library(plotly)
+# # # dibujo de C-SAT promedio por mes para todo el equipo (como esta en el ppt ComSac de caro para juriscoop)
+# ggplot( historic_data %>% group_by(Timestamp) %>% summarise(avg_calification=mean(`¿Cómo calificarías la atención que te dio Nelson de Aflore?`)) ,
+#         aes(x=Timestamp,y=avg_calification,label=round(avg_calification,1 ))) + geom_line()  +
 #   geom_label()  + labs(x="",y="",title = "C-SAT")
-
-
-# tener como triggere timestamp
+# 
+# historic_data<-historic_data %>% mutate(semana= week(historic_data$Timestamp))
+# historic_data_weekly<-historic_data %>% group_by(semana,nombre) %>%
+#   summarise(promedio=mean(`¿Cómo calificarías la atención que te dio Nelson de Aflore?`))
+# 
+# # generating two plots of c-sat for kati
+# 
+# historic_data_weekly %>% filter(nombre %in% unique(historic_data_weekly$nombre)[1:6]) %>% ggplot(aes(x=semana,y=promedio,color=nombre))+
+#   geom_line()
+#       
+# historic_data_weekly %>% filter(nombre %in% unique(historic_data_weekly$nombre)[7:12]) %>% ggplot(aes(x=semana,y=promedio,color=nombre))+
+#   geom_line(size=2)
+# 
+# historic_data %>% filter(nombre =="Andrés Aguilar") %>%
+#   ggplot(aes(x=Timestamp,y=`¿Cómo calificarías la atención que te dio Nelson de Aflore?`))+geom_line()
+# 
+# # tener como triggere timestamp
 
 
