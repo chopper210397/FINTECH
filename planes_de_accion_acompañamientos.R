@@ -2,7 +2,6 @@ library(googlesheets4)
 library(dplyr)
 library(lubridate)
 library(tidyr)
-library(tidyr)
 library(gmailr)
 
 # sheet planes de acción nuevo
@@ -41,34 +40,37 @@ correos <- c("Andrés Aguilar"="andresmauricio@aflore.co",
 # selecting data from yesterday , be careful if is monday cause cant yesterday is not friday so app dont send those messages
 ifelse( as.character( max( data$Timestamp ) ) ==  as.character( today()-1),
         data <- data %>% filter( as.character( Timestamp ) == as.character( today()-1)),
-        0 )
+        rm(list = ls()))
 
-data<-data[4,]
+n_row_data<-nrow(data)
+for (i in 1:n_row_data) {
+ data_temp<-data[i,]
 
   created_message<-gm_mime() %>%
-    gm_to( correos[data$Colaborador] ) %>% 
+    gm_to( correos[data_temp$Colaborador] ) %>% 
     gm_cc("carolina.reyes@aflore.co,dora.giraldo@aflore.co,talento@aflore.co") %>%
     gm_from("luis.barrios@aflore.co") %>%
-    gm_subject(paste0("Plan de acción acompañamiento de ", data$Colaborador )) %>%
+    gm_subject(paste0("Plan de acción acompañamiento de ", data_temp$Colaborador )) %>%
     gm_text_body(
       paste0( 
-        "Hola ",data$Colaborador," !","\n",
-        "Te envío el resumen del acompañamiento realizado el día ",data$`Fecha del acompañamiento`," junto a ",data$`Realiza el acompañamiento`,"\n","\n",
-        "Tipo de acompañamiento: ", "\t", data$`Tipo de acompañamiento` ,"\n",
-        "Realizó el acompañamiento: ","\t", data$`Realiza el acompañamiento`,"\n",
-        "Fecha de acompañamiento: ","\t", data$`Fecha del acompañamiento` ,"\n",
-        "Plazo: ", "\t", as.Date(data$Plazo , "%m/%d/%Y") ,"\n", "\n",
+        "Hola ",data_temp$Colaborador," !","\n",
+        "Te envío el resumen del acompañamiento realizado el día ",data_temp$`Fecha del acompañamiento`," junto a ",data_temp$`Realiza el acompañamiento`,"\n","\n",
+        "Tipo de acompañamiento: ", "\t", data_temp$`Tipo de acompañamiento` ,"\n",
+        "Realizó el acompañamiento: ","\t", data_temp$`Realiza el acompañamiento`,"\n",
+        "Fecha de acompañamiento: ","\t", data_temp$`Fecha del acompañamiento` ,"\n",
+        "Plazo: ", "\t", as.Date(data_temp$Plazo , "%m/%d/%Y") ,"\n", "\n",
         
-        "A mejorar: ", "\n", data$`A mejorar` ,"\n","\n",
-        "Aspectos donde se evidencia avance vs acompañamientos anteriores: ", "\n", data$`Aspectos donde se evidencia avance vs acompañamientos anteriores` ,"\n","\n",
-        "Plan de acción: ", "\n", data$`Plan de acción` ,"\n","\n",
-        "Observaciones: ", "\n", data$Observaciones ,"\n", "\n",
+        "A mejorar: ", "\n", data_temp$`A mejorar` ,"\n","\n",
+        "Aspectos donde se evidencia avance vs acompañamientos anteriores: ", "\n", data_temp$`Aspectos donde se evidencia avance vs acompañamientos anteriores` ,"\n","\n",
+        "Plan de acción: ", "\n", data_temp$`Plan de acción` ,"\n","\n",
+        "Observaciones: ", "\n", data_temp$Observaciones ,"\n", "\n",
         " 'MENSAJE AUTOMÁTICO' "
       ) 
     )
   gm_send_message(created_message,user_id = "me")
-1  
+1   
+}
+1
 
 rm(list = ls())
-
 
