@@ -6,6 +6,12 @@ library(writexl)
 library(googlesheets4)
 library(tidyr)
 library(gmailr)
+library(RPostgres)
+library(DBI)
+library(sqldf)
+# install.packages("sqldf")
+# install.packages("DBI")
+# install.packages("RPostgres")
 
 # leyendo googlesheets
 ###################################################################
@@ -46,3 +52,23 @@ qa_interno_desembolsos<-range_read("https://docs.google.com/spreadsheets/d/1QxJo
 qa_interno_comercial<-range_read("https://docs.google.com/spreadsheets/d/1XLl8_naZa89kguxuEGAmbBq7R8tzdN30xncLY_ODxT0/edit?usp=sharing",
                                    sheet = "Form Responses 1",
                                  col_types = "TcccDccccnnccccccnccc")
+
+###################################################################
+###################### TIEMPO RESPUESTA PQRSD #####################
+###################################################################
+# POSGRE CON LA DATA DE LOS TICKETS
+conn <- dbConnect(RPostgres::Postgres(), 
+                 user="aflore-read-only", 
+                 password="2eftvmj67ue",
+                 host="afloreprodreplica.cfkkiii2ach9.us-east-1.rds.amazonaws.com", 
+                 port=5432, 
+                 dbname="aflore-prod")
+
+db_query<-paste("select avg(coalesce(closed_at::date,now()::date) - created_at::date) from business_intelligence.tickets_ayuda_aflore  where (customer ='Luisa Moreno' or "owner" ='Luisa Moreno') and date_trunc('month',created_at)=date_trunc('month',now()-interval '1 month')")
+
+viewDataFrame<-dbGetQuery(conn,db_query)
+
+a<-as.data.frame( dbListTables(conn) )   #list all the tables 
+
+
+
