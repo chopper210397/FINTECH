@@ -12,46 +12,49 @@ library(ggplot2)
 
 nelson_rubio<-range_read("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing",
                          sheet = "Nelson Rubio",
-                         col_types = "Dnccc")
+                         col_types = "Dncccnc")
 1  # este 1 es para seleccionar el perfil de google pre configurado, no borrar
 luz_dary_useche<-range_read("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing",
                             sheet = "Luz Dary Useche",
-                            col_types = "Dnccc")
+                            col_types = "Dncccnc")
 jose_luis_alvarez<-range_read("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing",
                               sheet = "Jose Luis Alvarez",
-                              col_types = "Dnccc")
+                              col_types = "Dncccnc")
 camilo_escobedo<-range_read("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing",
                             sheet = "Camilo Escobedo",
-                            col_types = "Dnccc")
+                            col_types = "Dncccnc")
 tatiana_real<-range_read("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing",
                          sheet = "Tatiana Real",
-                         col_types = "Dnccc")
+                         col_types = "Dncccnc")
 luisa_moreno<-range_read("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing",
                          sheet = "Luisa Moreno",
-                         col_types = "Dnccc")
+                         col_types = "Dncccnc")
 leidy_rojas<-range_read("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing",
                         sheet = "Leidy Rojas",
-                        col_types = "Dnccc")
+                        col_types = "Dncccnc")
 karen_fernandez<-range_read("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing",
                             sheet = "Karen Fernandez",
-                            col_types = "Dnccc")
+                            col_types = "Dncccnc")
 catalina_suarez<-range_read("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing",
                             sheet = "Catalina Suarez",
-                            col_types = "Dnccc")
+                            col_types = "Dncccnc")
 
 # nuevos sheet agregados
 jose_jhiovanni<-range_read("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing",
                            sheet = "Jose Jhiovanni Vivas",
-                            col_types = "Dnccc")
+                            col_types = "Dncccnc")
 esmeralda_correa<-range_read("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing",
                              sheet = "Esmeralda Correa",
-                           col_types = "Dnccc")
+                           col_types = "Dncccnc")
 andres_aguilar<-range_read("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing",
                            sheet = "Andrés Aguilar",
-                           col_types = "Dnccc")
+                           col_types = "Dncccnc")
 andrea_reyes<-range_read("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing",
                          sheet = "Andrea Reyes",
-                         col_types = "Dnccc")
+                         col_types = "Dncccnc")
+cristian_castro<-range_read("https://docs.google.com/spreadsheets/d/12VXX9J2UixC3IWMwmwzoGXgRCWl8KoONXS2t_bEqeEM/edit?usp=sharing",
+                         sheet = "Cristian Castro",
+                         col_types = "Dncccnc")
 
 
 
@@ -68,6 +71,7 @@ colnames(jose_jhiovanni)<-colnames(nelson_rubio)
 colnames(esmeralda_correa)<-colnames(nelson_rubio)
 colnames(andres_aguilar)<-colnames(nelson_rubio)
 colnames(andrea_reyes)<-colnames(nelson_rubio)
+colnames(cristian_castro)<-colnames(nelson_rubio)
 
 # creando columna nombre
 nelson_rubio<-nelson_rubio %>% mutate(nombre= 'Nelson Rubio')
@@ -83,6 +87,7 @@ jose_jhiovanni<-jose_jhiovanni %>% mutate(nombre='Jose Jhiovanni Vivas')
 esmeralda_correa<-esmeralda_correa %>% mutate(nombre='Esmeralda Correa')
 andres_aguilar<-andres_aguilar %>% mutate(nombre='Andrés Aguilar')
 andrea_reyes<-andrea_reyes %>% mutate(nombre='Andrea Reyes')
+cristian_castro<-cristian_castro %>% mutate(nombre='Cristian Castro')
 
 # data total unida
 historic_data<-bind_rows(
@@ -98,7 +103,8 @@ historic_data<-bind_rows(
   jose_jhiovanni,
   esmeralda_correa,
   andres_aguilar,
-  andrea_reyes
+  andrea_reyes,
+  cristian_castro
 )
 
 
